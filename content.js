@@ -492,7 +492,7 @@
         <div class="title-bar">
           <div class="title-bar-text">WA Extractor</div>
           <div class="title-bar-controls">
-            <button id="wa-ext-btn-lang" aria-label="Language">${currentLang.toUpperCase()}</button>
+            <button id="wa-ext-btn-lang" aria-label="Language">EN</button>
             <button id="wa-ext-btn-feedback" aria-label="Help">Help</button>
             <button id="wa-ext-btn-close" aria-label="Close"></button>
           </div>
@@ -500,27 +500,25 @@
         
         <div class="window-body">
           <fieldset class="wa-ext-col">
-            <legend id="wa-ext-label-actions">${t('labelActions')}</legend>
-            <button id="wa-ext-btn-start">${t('btnStart')}</button>
-            <button id="wa-ext-btn-auto" class="hide">${t('btnAutoScroll')}</button>
-            <button id="wa-ext-btn-copy" class="hide">${t('btnCopy')}</button>
-            <button id="wa-ext-btn-stop" class="hide">${t('btnStop')}</button>
+            <legend id="wa-ext-label-actions">Actions</legend>
+            <button id="wa-ext-btn-start">Start</button>
+            <button id="wa-ext-btn-auto" class="hide">Auto Scroll</button>
+            <button id="wa-ext-btn-copy" class="hide">Copy</button>
+            <button id="wa-ext-btn-stop" class="hide">Stop</button>
           </fieldset>
 
           <div class="field-row-stacked" style="margin-top: 8px;">
-            <label id="wa-ext-label-status">${t('labelStatus')}</label>
-            <div id="wa-extractor-status" class="sunken-panel" style="padding: 10px; min-height: 70px; word-break: break-all; font-family: 'Fixedsys', 'Courier New', monospace; font-size: 14px; background: black; color: #00ff00; line-height: 1.5;">
-               > ${t('statusReady')}<br>> ${t('statusCollected')}: 0
-            </div>
+            <label id="wa-ext-label-status">Status Info</label>
+            <div id="wa-extractor-status" class="sunken-panel" style="padding: 10px; min-height: 70px; word-break: break-all; font-family: 'Fixedsys', 'Courier New', monospace; font-size: 14px; background: black; color: #00ff00; line-height: 1.5;"></div>
           </div>
 
           <div style="margin-top: 8px;">
-            <button id="wa-ext-btn-log" style="width: 100%;">${t('btnSysLogs')}</button>
+            <button id="wa-ext-btn-log" style="width: 100%;">System Logs</button>
           </div>
 
           <div id="wa-extractor-log-terminal" class="sunken-panel" style="padding: 6px; overflow-y: auto; background: black; color: #00ff00; font-family: 'Fixedsys', 'Courier New', monospace; font-size: 12px;"></div>
           
-          <button id="wa-extractor-log-clear" class="hide" style="width: 100%; margin-top: 4px;">${t('logClear')}</button>
+          <button id="wa-extractor-log-clear" class="hide" style="width: 100%; margin-top: 4px;">Clear Logs</button>
         </div>
       </div>
       
@@ -544,6 +542,9 @@
     const logContainer = document.getElementById('wa-extractor-log-terminal');
     const clearLogBtn = document.getElementById('wa-extractor-log-clear');
     const logContent = logContainer; // Log kayıtları doğrudan containere düşecek
+
+    // UI metinlerini güvenli yoldan (textContent/innerText) yerleştiriyoruz
+    updateUITexts();
 
     // Önceden birikmiş logları UI'a bas
     logHistory.forEach(item => {
