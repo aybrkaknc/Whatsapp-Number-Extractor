@@ -1,0 +1,12 @@
+{
+  "name": "whatsapp-number-extractor",
+  "version": "1.0.0",
+  "description": "WhatsApp Number Extractor with Hot Reload",
+  "main": "content.js",
+  "scripts": {
+    "start": "web-ext run --firefox=\"C:\\Program Files\\Mozilla Firefox\\firefox.exe\" --firefox-profile=\"C:\\Users\\Ayberk.DESKTOP-PL3VNE8\\Documents\\Ayberk\\Antigravity Projeler\\Whatsapp Number Extractor\\.dev-profile\" --profile-create-if-missing --keep-profile-changes"
+  },
+  "devDependencies": {
+    "web-ext": "^10.0.0"
+  }
+}
