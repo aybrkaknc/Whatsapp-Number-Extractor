@@ -168,7 +168,7 @@
       
       const statusBox = document.getElementById('wa-extractor-status');
       if (statusBox) {
-        statusBox.innerHTML = `> ${t('errCritical')}<br>> ${t(key, ...params)}`;
+        statusBox.textContent = `> ${t('errCritical')}\n> ${t(key, ...params)}`;
         statusBox.style.color = '#f44336';
       }
     }
@@ -313,7 +313,7 @@
           newFound++;
           const status = document.getElementById('wa-extractor-status');
           if (status) {
-            status.innerHTML = `> ${t('statusCollected')}: ${collectedPhones.size}<br>> ${t('statusLast')}: ${text}`;
+            status.textContent = `> ${t('statusCollected')}: ${collectedPhones.size}\n> ${t('statusLast')}: ${text}`;
           }
         }
       });
@@ -363,10 +363,10 @@
       statusObj.style.color = '#00ff00';
       const numCount = collectedPhones ? collectedPhones.size : 0;
       if (numCount === 0) {
-        statusObj.innerHTML = `> ${t('statusReady')}<br>> ${t('statusCollected')}: 0`;
+        statusObj.textContent = `> ${t('statusReady')}\n> ${t('statusCollected')}: 0`;
       } else {
         const lastNum = Array.from(collectedPhones.keys()).pop();
-        statusObj.innerHTML = `> ${t('statusCollected')}: ${numCount}<br>> ${t('statusLast')}: ${lastNum}`;
+        statusObj.textContent = `> ${t('statusCollected')}: ${numCount}\n> ${t('statusLast')}: ${lastNum}`;
       }
     }
     
@@ -385,7 +385,7 @@
     // Mevcut logları yeni dile göre güncelle
     const logTerm = document.getElementById('wa-extractor-log-terminal');
     if (logTerm) {
-      logTerm.innerHTML = '';
+      logTerm.textContent = '';
       logHistory.forEach(item => {
         const timeStr = new Date().toLocaleTimeString(currentLang === 'tr' ? 'tr-TR' : 'en-US');
         const msg = t(item.key, ...item.params);
@@ -428,6 +428,7 @@
         #wa-extractor-log-terminal, #wa-extractor-status {
           font-family: 'Fixedsys', 'Courier New', monospace !important;
           font-size: 14px !important;
+          white-space: pre-wrap !important;
         }
         #wa-98-scope .hide { display: none !important; }
         .wa-ext-col { 
@@ -800,7 +801,7 @@
       
       collectedPhones.clear();
       status.style.color = '#00ff00';
-      status.innerHTML = `> ${t('statusReady')}<br>> ${t('statusCollected')}: 0`;
+      status.textContent = `> ${t('statusReady')}\n> ${t('statusCollected')}: 0`;
     };
   }
 
