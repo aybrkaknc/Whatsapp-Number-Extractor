@@ -1,54 +1,54 @@
 # WhatsApp Number Extractor
 
-Chrome extension that collects member phone numbers from WhatsApp Web group chats.  
-Comes with a Windows 98 themed interface for that retro vibe.
+A Firefox extension that collects member phone numbers from WhatsApp Web group chats.  
+Features a nostalgic Windows 98 themed interface for a premium retro experience.
 
 > 🇹🇷 **[Türkçe versiyon aşağıda](#turkce)**
 
-## Features
+## 🚀 Installation
 
-- **One-click extraction** — Open the "Search participants" modal, hit Start, the extension handles the rest
-- **Auto scroll** — No need to manually scroll through long lists
-- **CSV export** — Numbers are exported with Country, Name and Phone columns, Excel-compatible
-- **Copy to clipboard** — Copy all numbers with one click
-- **Bilingual (TR/EN)** — UI and logs switch between Turkish and English on the fly
-- **Draggable window** — Grab the title bar and move the window wherever you want
-- **System logs** — Developer logs to see what's happening under the hood
-- **Windows 98 theme** — Nostalgic UI powered by 98.css
+### 1. Official Store (Recommended)
+You can install the latest stable version directly from the **Firefox Add-ons Store**:  
+👉 **[Download on Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/whatsappnumberextractor/)**
 
-## Installation
-
+### 2. Manual Installation (For Developers)
 1. Clone or download this repo:
-   ```
+   ```bash
    git clone https://github.com/aybrkaknc/Whatsapp-Number-Extractor.git
    ```
-2. Go to `chrome://extensions` in Chrome
-3. Enable **Developer mode** (top right)
-4. Click **Load unpacked**
-5. Select the downloaded folder
+2. Open Firefox and type `about:debugging` in the address bar.
+3. Click on **"This Firefox"** (or "This Nightly").
+4. Click **"Load Temporary Add-on..."**.
+5. Select the `manifest.json` file from the downloaded folder.
 
-## Usage
+---
 
-1. Open [WhatsApp Web](https://web.whatsapp.com)
-2. Navigate to the group you want to extract numbers from
-3. Click on the group header and open the **"Search participants"** modal
-4. Click the **WA** button (bottom right corner)
-5. Hit **Start**
-6. Optionally use **Auto Scroll** to scan the entire list
-7. Click **Finish & DL** to download the CSV file
+## ✨ Features
 
-## Tech Stack
+- **Retro UI** — Fully featured Windows 98 theme powered by scoped `98.css`.
+- **One-Click Extraction** — Open the "Search participants" modal and hit Start.
+- **Auto Scroll** — Automatically scans through long member lists.
+- **Excel-Compatible Export** — Downloads a CSV with Country, Name, and Phone columns (using `;` delimiter for global compatibility).
+- **Draggable Window** — Move the extension panel anywhere on your screen.
+- **Bilingual Support** — Switch between **Turkish** and **English** on the fly.
+- **System Logs** — Real-time developer logs to monitor the extraction process.
 
-- **Platform:** Chrome Extension (Manifest V3)
-- **Theme:** [98.css](https://jdan.github.io/98.css/) (scoped)
-- **Language:** Vanilla JavaScript, CSS
-- **CSV format:** Semicolon-delimited, UTF-8 BOM (Turkish Excel compatible)
+## 🛠️ Usage
 
-## Contact
+1. Open [WhatsApp Web](https://web.whatsapp.com) in Firefox.
+2. Enter a group chat.
+3. Click on the group header and open the **"Search participants"** modal.
+4. Click the **WA** button in the bottom right corner.
+5. Hit **Start**.
+6. (Optional) Use **Auto Scroll** to scan the entire list.
+7. Click **Finish & DL** to save your CSV file.
 
-Found a bug or have a suggestion? [@aybrkaknc](https://t.me/aybrkaknc) (Telegram)
+## 📬 Contact & Support
 
-## License
+Found a bug or have a suggestion?  
+Reach out via Telegram: [@aybrkaknc](https://t.me/aybrkaknc)
+
+## ⚖️ License
 
 MIT
 
@@ -58,52 +58,52 @@ MIT
 
 # 🇹🇷 Türkçe
 
-WhatsApp Web grup sohbetlerinden üye telefon numaralarını toplayan Chrome eklentisi.  
-Windows 98 temalı arayüzüyle retro bir deneyim sunar.
+WhatsApp Web grup sohbetlerinden üye telefon numaralarını toplayan bir Firefox eklentisi.  
+Windows 98 temalı arayüzüyle eşsiz bir retro deneyimi sunar.
 
-## Özellikler
+## 🚀 Kurulum
 
-- **Tek tıkla numara toplama** — "Üyeleri Aratın" modalını aç, Başla'ya bas, gerisini eklenti halleder
-- **Otomatik kaydırma** — Uzun listelerde elle kaydırmana gerek yok, eklenti otomatik kaydırıp tüm üyeleri tarıyor
-- **CSV dışa aktarma** — Toplanan numaralar Ülke, İsim ve Telefon sütunlarıyla Excel uyumlu CSV olarak indiriliyor
-- **Panoya kopyalama** — Numaraları tek tıkla panoya kopyala
-- **Çift dil desteği (TR/EN)** — Arayüz ve loglar anlık olarak Türkçe/İngilizce arasında geçiş yapabiliyor
-- **Sürüklenebilir pencere** — Başlık çubuğundan tutup pencereyi istediğin yere taşı
-- **Sistem logları** — Arka planda neler olduğunu takip edebileceğin geliştirici logları
-- **Windows 98 teması** — 98.css kütüphanesi ile nostaljik arayüz
+### 1. Resmi Mağaza (Önerilen)
+En güncel ve kararlı sürümü doğrudan **Firefox Eklenti Mağazası** üzerinden indirebilirsiniz:  
+👉 **[Firefox Add-ons üzerinden indir](https://addons.mozilla.org/en-US/firefox/addon/whatsappnumberextractor/)**
 
-## Kurulum
-
-1. Bu repoyu indir veya klonla:
-   ```
+### 2. Manuel Kurulum (Geliştiriciler İçin)
+1. Bu repoyu indirin veya klonlayın:
+   ```bash
    git clone https://github.com/aybrkaknc/Whatsapp-Number-Extractor.git
    ```
-2. Chrome'da `chrome://extensions` adresine git
-3. Sağ üstten **Geliştirici modu**'nu aç
-4. **Paketlenmemiş öğe yükle** butonuna tıkla
-5. İndirdiğin klasörü seç
+2. Firefox'u açın ve adres çubuğuna `about:debugging` yazın.
+3. **"Bu Firefox"** sekmesine tıklayın.
+4. **"Geçici Eklentiyi Yükle..."** butonuna tıklayın.
+5. İndirdiğiniz klasördeki `manifest.json` dosyasını seçin.
 
-## Kullanım
+---
 
-1. [WhatsApp Web](https://web.whatsapp.com)'i aç
-2. Numaralarını almak istediğin gruba gir
-3. Grup başlığına tıklayıp **"Üyeleri Aratın"** modalını aç
-4. Sağ alttaki **WA** butonuna tıkla
-5. **Başla** butonuna bas
-6. İsteğe bağlı: **Otomatik Kaydır** ile tüm listeyi tara
-7. **Bitir ve İndir** ile CSV dosyasını al
+## ✨ Özellikler
 
-## Teknik Detaylar
+- **Retro Arayüz** — Scoped `98.css` ile güçlendirilmiş tam kapsamlı Windows 98 tasarımı.
+- **Tek Tıkla Toplama** — "Üyeleri Aratın" modalını açın ve Başla'ya basın.
+- **Otomatik Kaydırma** — Uzun üye listelerini otomatik olarak tarar.
+- **Excel Uyumlu Çıktı** — Ülke, İsim ve Telefon sütunlarını içeren, noktalı virgül (`;`) ayraçlı CSV indirir.
+- **Sürüklenebilir Pencere** — Eklenti panelini ekranın istediğiniz yerine taşıyın.
+- **Çift Dil Desteği** — Türkçe ve İngilizce arasında anlık geçiş yapın.
+- **Sistem Logları** — Tarama sürecini takip edebileceğiniz anlık geliştirici günlükleri.
 
-- **Platform:** Chrome Extension (Manifest V3)
-- **Tema:** [98.css](https://jdan.github.io/98.css/) (scoped)
-- **Dil:** Vanilla JavaScript, CSS
-- **CSV formatı:** Noktalı virgül ayraçlı, UTF-8 BOM destekli (Türkçe Excel uyumlu)
+## 🛠️ Kullanım
 
-## İletişim
+1. Firefox üzerinde [WhatsApp Web](https://web.whatsapp.com)'i açın.
+2. Numaralarını almak istediğiniz bir gruba girin.
+3. Grup başlığına tıklayarak **"Üyeleri Aratın"** modalını açın.
+4. Sağ alttaki **WA** butonuna tıklayın.
+5. **Başla** butonuna basın.
+6. (İsteğe bağlı) Tüm listeyi taramak için **Otomatik Kaydır** özelliğini kullanın.
+7. **Bitir ve İndir** butonuna tıklayarak CSV dosyanızı kaydedin.
 
-Bir sorun bulursan veya önerin varsa: [@aybrkaknc](https://t.me/aybrkaknc) (Telegram)
+## 📬 İletişim ve Destek
 
-## Lisans
+Bir hata mı buldunuz yoksa öneriniz mi var?  
+Telegram üzerinden ulaşın: [@aybrkaknc](https://t.me/aybrkaknc)
+
+## ⚖️ Lisans
 
 MIT
