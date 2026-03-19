@@ -8,5 +8,13 @@
   },
   "devDependencies": {
     "web-ext": "^10.0.0"
+  },
+  "webExt": {
+    "ignoreFiles": [
+      "icon/og.png",
+      "package-lock.json",
+      "README.md",
+      "thumbsup64.txt"
+    ]
   }
 }
