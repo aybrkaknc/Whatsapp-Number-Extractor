@@ -3,6 +3,10 @@
   "name": "WhatsApp Number Extractor",
   "version": "1.1",
   "description": "Grup \u00fcyelerinden telefon numaralar\u0131n\u0131 toplay\u0131p CSV olarak indir.",
+  "icons": {
+    "48": "icon/icon-48.png",
+    "96": "icon/icon-96.png"
+  },
   "permissions": [
     "activeTab"
   ],
@@ -23,7 +27,10 @@
     {
       "resources": [
         "*.woff",
-        "*.woff2"
+        "*.woff2",
+        "help-en.html",
+        "help-tr.html",
+        "98.css"
       ],
       "matches": [
         "*://*.whatsapp.com/*"

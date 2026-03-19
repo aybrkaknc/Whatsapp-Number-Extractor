@@ -424,6 +424,25 @@
         #wa-98-scope * { 
           pointer-events: auto; 
           font-family: Tahoma, "Microsoft Sans Serif", sans-serif !important; 
+          color: #000 !important;
+        }
+        #wa-98-scope .window {
+          background-color: #c0c0c0 !important;
+        }
+        #wa-98-scope .title-bar {
+          background: linear-gradient(90deg, #000080, #1084d0) !important;
+        }
+        #wa-98-scope .title-bar-text {
+          color: #fff !important;
+        }
+        #wa-98-scope #wa-extractor-status,
+        #wa-98-scope #wa-extractor-log-terminal {
+          color: #00ff00 !important;
+          background-color: #000 !important;
+        }
+        #wa-98-scope #wa-extractor-status .log-line,
+        #wa-98-scope #wa-extractor-log-terminal .log-line {
+          color: inherit !important;
         }
         #wa-extractor-log-terminal, #wa-extractor-status {
           font-family: 'Fixedsys', 'Courier New', monospace !important;
@@ -456,6 +475,12 @@
           background-position: center !important;
         }
         #wa-ext-btn-feedback { background-image: none !important; }
+        #wa-ext-btn-telegram { 
+          background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAWklEQVR4nM1RMRIAIAjCrv9/uaaGDKnOhpgKESkBjbapoxw0SxNlkIKfHqZIJ7CDFFJXL4ZQw+gJzQmjOzXYNU86ShLe1wcsswUDHqzRG7AfB+FsOQgxG/AROsu2ExI+hlmGAAAAAElFTkSuQmCC') !important;
+          background-repeat: no-repeat !important;
+          background-position: center !important;
+          background-size: 14px 14px !important;
+        }
         #wa-extractor-window .title-bar { cursor: move; }
         #wa-extractor-window .title-bar button { cursor: pointer; }
         
@@ -493,7 +518,8 @@
           <div class="title-bar-text">WA Extractor</div>
           <div class="title-bar-controls">
             <button id="wa-ext-btn-lang" aria-label="Language">EN</button>
-            <button id="wa-ext-btn-feedback" aria-label="Help">Help</button>
+            <button id="wa-ext-btn-feedback" aria-label="Help">?</button>
+            <button id="wa-ext-btn-telegram" aria-label="Feedback"></button>
             <button id="wa-ext-btn-close" aria-label="Close"></button>
           </div>
         </div>
@@ -536,6 +562,7 @@
     const stopBtn = document.getElementById('wa-ext-btn-stop');
     const langBtn = document.getElementById('wa-ext-btn-lang');
     const feedbackBtn = document.getElementById('wa-ext-btn-feedback');
+    const telegramBtn = document.getElementById('wa-ext-btn-telegram');
     const closeBtn = document.getElementById('wa-ext-btn-close');
     const status = document.getElementById('wa-extractor-status');
     const toggleLogBtn = document.getElementById('wa-ext-btn-log');
@@ -566,6 +593,12 @@
 
     feedbackBtn.onclick = () => {
       Logger.info('logFeedbackOpen');
+      const helpFile = currentLang === 'tr' ? 'help-tr.html' : 'help-en.html';
+      const helpUrl = browser.runtime.getURL(helpFile);
+      window.open(helpUrl, '_blank');
+    };
+
+    telegramBtn.onclick = () => {
       window.open('https://t.me/aybrkaknc', '_blank');
     };
 

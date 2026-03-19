@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WA Extractor - How to Use</title>
+  <link rel="stylesheet" href="98.css">
+  <style>
+    body {
+      background-color: #008080;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      -webkit-font-smoothing: auto;
+    }
+    .window {
+      width: calc(100vw - 32px);
+      height: calc(100vh - 32px);
+      display: flex;
+      flex-direction: column;
+    }
+    .window-body {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 30px;
+      flex: 1;
+    }
+    .grid-col {
+      display: flex;
+      flex-direction: column;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 10px;
+      background: #dfdfdf;
+      border: 1px solid #808080;
+    }
+    .step-num {
+      background: #000080;
+      color: #fff;
+      font-weight: bold;
+      min-width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .step-text {
+      font-size: 14px;
+      line-height: 1.4;
+      color: #000;
+    }
+    .step-text strong {
+      color: #000080;
+    }
+    h3 {
+      font-size: 16px;
+      margin: 16px 0 8px 0;
+      color: #000080;
+      border-bottom: 2px solid #000080;
+      padding-bottom: 4px;
+    }
+    h3:first-child {
+      margin-top: 0;
+    }
+    .note {
+      background: #ffffcc;
+      border: 1px solid #808080;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-top: auto;
+    }
+    .note strong {
+      color: #800000;
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <div class="title-bar">
+      <div class="title-bar-text">📖 WA Extractor - How to Use</div>
+    </div>
+    <div class="window-body">
+
+      <div class="content-grid">
+        <!-- LEFT COLUMN -->
+        <div class="grid-col">
+          <h3>🚀 Getting Started</h3>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">Open <strong>WhatsApp Web</strong> in your browser and log in to your account.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">Navigate to the <strong>group chat</strong> you want to extract members from.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">Click on the <strong>group name</strong> at the top to open the group info panel, then click <strong>"Search participants"</strong> to open the members modal.</div>
+          </div>
+
+          <h3>📋 Extracting Numbers</h3>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-text">Click the <strong>WA</strong> button in the bottom-right corner of the screen to open the extension panel.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-text">Press the <strong>"Start"</strong> button. The extension will begin scanning visible members.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">6</div>
+            <div class="step-text">For large groups, use <strong>"Auto Scroll"</strong> to automatically scroll through the entire member list.</div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="grid-col">
+          <h3>💾 Saving Your Data</h3>
+          <div class="step">
+            <div class="step-num">7</div>
+            <div class="step-text">Use <strong>"Copy"</strong> to copy all collected numbers to your clipboard, or press <strong>"Finish & DL"</strong> to download a CSV file.</div>
+          </div>
+
+          <h3>⚙️ Extra Features</h3>
+          <div class="step">
+            <div class="step-num">🌐</div>
+            <div class="step-text">Use the <strong>TR/EN</strong> button in the title bar to switch between Turkish and English instantly.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">🖱️</div>
+            <div class="step-text">You can <strong>drag</strong> the extension window anywhere on the screen by grabbing the title bar.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">📊</div>
+            <div class="step-text">Click <strong>"System Logs"</strong> to monitor the extraction process in real time.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>⚠️ Note:</strong> This tool is designed for legitimate business and personal networking purposes. Please respect privacy and WhatsApp's terms of service.
+      </div>
+    </div>
+  </div>
+</body>
+</html>
