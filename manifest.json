@@ -17,10 +17,23 @@
         "https://web.whatsapp.com/*"
       ],
       "css": [
-        "98-scoped.css"
+        "98-scoped.css",
+        "src/ui/panel.css"
       ],
       "js": [
-        "content.js"
+        "src/state.js",
+        "src/i18n/tr.js",
+        "src/i18n/en.js",
+        "src/i18n/i18n.js",
+        "src/logger.js",
+        "src/scanner.js",
+        "src/csv.js",
+        "src/ui/template.js",
+        "src/ui/texts.js",
+        "src/ui/window.js",
+        "src/ui/actions.js",
+        "src/ui/create.js",
+        "src/main.js"
       ]
     }
   ],
