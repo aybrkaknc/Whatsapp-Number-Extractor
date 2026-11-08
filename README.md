@@ -40,9 +40,11 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#development">Development</a></li>
     <li><a href="#privacy">Privacy</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -122,6 +124,18 @@ The extension sends no data to any server. See [PRIVACY.md](PRIVACY.md).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Roadmap
+
+- [x] Chrome support
+- [x] Turkish and English interface
+- [x] CSV formula injection protection
+- [ ] Chrome Web Store release
+- [ ] Automated tests for the scanning logic
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Contributing
 
 Contributions are welcome. If you have a suggestion, fork the repo and open a pull request, or open an issue with the tag "enhancement".
@@ -145,6 +159,14 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 Telegram: [@aybrkaknc](https://t.me/aybrkaknc)
 
 Project Link: [https://github.com/aybrkaknc/Whatsapp-Number-Extractor](https://github.com/aybrkaknc/Whatsapp-Number-Extractor)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Acknowledgments
+
+* [98.css](https://jdan.github.io/98.css/) - Windows 98 style for the panel
+* [Best-README-Template](https://github.com/aybrkaknc/Best-README-Template) - README structure
+* [Img Shields](https://shields.io) - badges
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

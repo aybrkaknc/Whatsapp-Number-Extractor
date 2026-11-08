@@ -40,9 +40,11 @@
     <li><a href="#kullanım">Kullanım</a></li>
     <li><a href="#geliştirme">Geliştirme</a></li>
     <li><a href="#gizlilik">Gizlilik</a></li>
+    <li><a href="#yol-haritası">Yol Haritası</a></li>
     <li><a href="#katkıda-bulunma">Katkıda Bulunma</a></li>
     <li><a href="#lisans">Lisans</a></li>
     <li><a href="#iletişim">İletişim</a></li>
+    <li><a href="#teşekkürler">Teşekkürler</a></li>
   </ol>
 </details>
 
@@ -122,6 +124,18 @@ Eklenti hiçbir sunucuya veri göndermez. Ayrıntılar: [PRIVACY.tr.md](PRIVACY.
 
 <p align="right">(<a href="#readme-top">başa dön</a>)</p>
 
+## Yol Haritası
+
+- [x] Chrome desteği
+- [x] Türkçe ve İngilizce arayüz
+- [x] CSV formül enjeksiyonu koruması
+- [ ] Chrome Web Store'da yayın
+- [ ] Tarama mantığı için otomatik testler
+
+Sürüm geçmişi için [CHANGELOG.tr.md](CHANGELOG.tr.md) dosyasına bakın.
+
+<p align="right">(<a href="#readme-top">başa dön</a>)</p>
+
 ## Katkıda Bulunma
 
 Katkılar memnuniyetle karşılanır. Bir öneriniz varsa depoyu çatallayıp bir pull request açın veya "enhancement" etiketiyle bir sorun açın.
@@ -145,6 +159,14 @@ MIT Lisansı altında dağıtılmaktadır. Ayrıntılar için [LICENSE](LICENSE)
 Telegram: [@aybrkaknc](https://t.me/aybrkaknc)
 
 Proje bağlantısı: [https://github.com/aybrkaknc/Whatsapp-Number-Extractor](https://github.com/aybrkaknc/Whatsapp-Number-Extractor)
+
+<p align="right">(<a href="#readme-top">başa dön</a>)</p>
+
+## Teşekkürler
+
+* [98.css](https://jdan.github.io/98.css/) - Panel için Windows 98 görünümü
+* [Best-README-Template](https://github.com/aybrkaknc/Best-README-Template) - README yapısı
+* [Img Shields](https://shields.io) - rozetler
 
 <p align="right">(<a href="#readme-top">başa dön</a>)</p>
 
