@@ -2,3 +2,5 @@ node_modules
 .dev-profile
 META-INF
 package-lock.json
+*.xpi
+web-ext-artifacts

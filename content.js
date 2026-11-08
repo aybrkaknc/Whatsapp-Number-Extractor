@@ -31,12 +31,17 @@
       labelStatus: 'Durum Bilgisi',
       logInit: 'UI Elemanları Sayfaya Enjekte Ediliyor...',
       logLangChanged: 'Dil değiştirildi: {0}',
-      logFeedbackOpen: 'Geri bildirim penceresi açılıyor...',
+      logFeedbackOpen: 'Yardım sayfası açılıyor...',
       logClearSuccess: 'Log kayıtları temizlendi.',
       logStartClicked: '--- BAŞLAT BUTONUNA TIKLANDI ---',
       logAutoScrollClicked: '--- OTOMATİK KAYDIR BUTONUNA TIKLANDI ---',
       logScanStart: 'Canlı Tarama başlatıldı.',
-      logModalClosed: 'Modal kapatıldı! İşlem sonlandırılıyor...',
+      logModalClosed: 'Modal kapatıldı! Tarama durduruldu. İndirmek için "Bitir ve İndir"e basın.',
+      unknown: 'Bilinmiyor',
+      ariaLang: 'Dil',
+      ariaHelp: 'Yardım',
+      ariaTelegram: 'Telegram ile geri bildirim',
+      ariaClose: 'Kapat',
       logScanDone: 'Liste sonuna ulaşıldı veya sıkışma var. Kaydırma bitti.',
       logAutoScrollPaused: 'Otomatik kaydırma duraklatıldı.',
       logCopied: 'Numaralar panoya kopyalandı.',
@@ -84,12 +89,17 @@
       labelStatus: 'Status Info',
       logInit: 'UI Elements Injected Into Page...',
       logLangChanged: 'Language changed: {0}',
-      logFeedbackOpen: 'Opening feedback window...',
+      logFeedbackOpen: 'Opening help page...',
       logClearSuccess: 'Logs cleared.',
       logStartClicked: '--- START BUTTON CLICKED ---',
       logAutoScrollClicked: '--- AUTO SCROLL CLICKED ---',
       logScanStart: 'Live Scan started.',
-      logModalClosed: 'Modal closed! Finishing process...',
+      logModalClosed: 'Modal closed! Scan stopped. Press "Finish & DL" to download.',
+      unknown: 'Unknown',
+      ariaLang: 'Language',
+      ariaHelp: 'Help',
+      ariaTelegram: 'Feedback via Telegram',
+      ariaClose: 'Close',
       logScanDone: 'End of list reached or stuck. Scroll done.',
       logAutoScrollPaused: 'Auto scroll paused by user.',
       logCopied: 'Numbers copied to clipboard.',
@@ -131,10 +141,10 @@
     _appendUI: (type, key, params = [], rawErr = '') => {
       const time = new Date().toLocaleTimeString(currentLang === 'tr' ? 'tr-TR' : 'en-US');
       let color = '#ccc';
-      let icon = 'ℹ️';
-      if (type === 'WARN') { color = '#ffeb3b'; icon = '⚠️'; }
-      if (type === 'ERROR') { color = '#f44336'; icon = '❌'; }
-      if (type === 'INFO') { color = '#4caf50'; icon = '▶️'; }
+      let icon = '[i]';
+      if (type === 'WARN') { color = '#ffeb3b'; icon = '[!]'; }
+      if (type === 'ERROR') { color = '#f44336'; icon = '[x]'; }
+      if (type === 'INFO') { color = '#4caf50'; icon = '[>]'; }
 
       const msg = t(key, ...params);
       const logText = `[${time}] ${icon} ${msg} ${rawErr ? String(rawErr) : ''}`;
@@ -283,7 +293,7 @@
         const text = span.textContent.trim();
         if (/^\+?\d[\d\s\-()]{7,}$/.test(text) && !collectedPhones.has(text)) {
           
-          let name = 'Bilinmiyor';
+          let name = '';
           const row = span.closest('div[role="listitem"]') || span.parentElement.closest('div[style*="height"]') || span.closest('div');
           if (row) {
              const allTexts = row.querySelectorAll('span[dir="auto"], span[title]');
@@ -294,19 +304,16 @@
                    if (t.startsWith('~')) {
                       name = t.substring(1).trim();
                       break;
-                   } else if (name === 'Bilinmiyor' && t.length > 1) { // Normal profil ismi (rehbere kayıtlı olabilir vs)
+                   } else if (name === '' && t.length > 1) { // Normal profil ismi (rehbere kayıtlı olabilir vs)
                       name = t;
                    }
                 }
              }
           }
-          // İsim içerisindeki virgüller CSV formatını bozmasın diye siliyoruz
-          name = name.replace(/,/g, '');
-
           let country = text.split(' ')[0];
           if (!country.includes('+')) {
              if (text.startsWith('0')) country = 'TR'; // Bölgesel format 05... ise
-             else country = 'Bilinmiyor';
+             else country = '';
           }
           
           collectedPhones.set(text, { country, name, phone: text });
@@ -358,6 +365,10 @@
     }
     const langBtn = document.getElementById('wa-ext-btn-lang');
     if(langBtn) langBtn.innerText = currentLang.toUpperCase();
+    [['wa-ext-btn-lang', 'ariaLang'], ['wa-ext-btn-feedback', 'ariaHelp'], ['wa-ext-btn-telegram', 'ariaTelegram'], ['wa-ext-btn-close', 'ariaClose']].forEach(([id, key]) => {
+      const el = document.getElementById(id);
+      if (el) el.setAttribute('aria-label', t(key));
+    });
     const statusObj = document.getElementById('wa-extractor-status');
     if(statusObj) {
       statusObj.style.color = '#00ff00';
@@ -387,13 +398,12 @@
     if (logTerm) {
       logTerm.textContent = '';
       logHistory.forEach(item => {
-        const timeStr = new Date().toLocaleTimeString(currentLang === 'tr' ? 'tr-TR' : 'en-US');
         const msg = t(item.key, ...item.params);
         const line = document.createElement('div');
         line.style.color = item.color;
         line.style.marginBottom = '6px';
         line.style.wordBreak = 'break-word';
-        line.innerText = `[${timeStr}] ${item.icon} ${msg} ${item.rawErr ? String(item.rawErr) : ''}`;
+        line.innerText = `[${item.time}] ${item.icon} ${msg} ${item.rawErr ? String(item.rawErr) : ''}`;
         logTerm.appendChild(line);
       });
       logTerm.scrollTop = logTerm.scrollHeight;
@@ -594,7 +604,7 @@
     feedbackBtn.onclick = () => {
       Logger.info('logFeedbackOpen');
       const helpFile = currentLang === 'tr' ? 'help-tr.html' : 'help-en.html';
-      const helpUrl = browser.runtime.getURL(helpFile);
+      const helpUrl = (globalThis.browser || chrome).runtime.getURL(helpFile);
       window.open(helpUrl, '_blank');
     };
 
@@ -728,8 +738,16 @@
       modalCheckInterval = setInterval(() => {
         // Modal DOM'dan silinmişse veya gizlenmişse (React dom mount/unmount)
         if (!document.body.contains(scrollArea) || scrollArea.offsetHeight === 0 || scrollArea.offsetWidth === 0) {
+          // Veriyi kaybetmemek için sadece taramayı durdur, indirme kullanıcıya kalsın
           Logger.warn('logModalClosed');
-          stopBtn.click();
+          clearInterval(modalCheckInterval);
+          modalCheckInterval = null;
+          if (observer) observer.disconnect();
+          if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+            autoBtn.innerText = t('btnScrollResume');
+          }
         }
       }, 1000);
     };
@@ -742,7 +760,7 @@
         let stuckCount = 0;
 
         autoScrollInterval = setInterval(() => {
-          const scrollArea = findActiveScrollContainer();
+          const scrollArea = findActiveScrollContainer(true);
           if (!scrollArea) {
             Logger.warn('errScrollNoList');
             return;
@@ -797,13 +815,20 @@
       }
       if (observer) observer.disconnect();
       if (autoScrollInterval) clearInterval(autoScrollInterval);
+      autoScrollInterval = null;
 
       if (collectedPhones.size > 0) {
         try {
+          // Tırnakları kaçır, = + - @ ile başlayan değerleri formül olarak çalışmasın diye ' ile öne ekle
+          const csvCell = (value) => {
+            let s = String(value).replace(/"/g, '""');
+            if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+            return `"${s}"`;
+          };
           // sep=; satırı Excel'in ayıracı otomatik tanımasını sağlar
           const csvRows = ['sep=;', t('csvHeaders')];
-          for (const [key, data] of collectedPhones.entries()) {
-             csvRows.push(`${data.country};"${data.name}";${data.phone}`);
+          for (const data of collectedPhones.values()) {
+             csvRows.push([data.country || t('unknown'), data.name || t('unknown'), data.phone].map(csvCell).join(';'));
           }
           const content = csvRows.join('\n');
           // UTF-8 BOM ekliyoruz ki Excel Türkçe karakterleri doğru okusun

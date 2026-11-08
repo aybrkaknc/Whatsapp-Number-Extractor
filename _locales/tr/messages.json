@@ -1,0 +1,8 @@
+{
+  "extName": {
+    "message": "WhatsApp Number Extractor"
+  },
+  "extDescription": {
+    "message": "WhatsApp Web grup üyelerinin telefon numaralarını toplayıp Excel uyumlu CSV olarak dışa aktarın."
+  }
+}
