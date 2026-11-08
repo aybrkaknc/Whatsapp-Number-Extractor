@@ -400,6 +400,7 @@
       logHistory.forEach(item => {
         const msg = t(item.key, ...item.params);
         const line = document.createElement('div');
+        line.className = 'log-line';
         line.style.color = item.color;
         line.style.marginBottom = '6px';
         line.style.wordBreak = 'break-word';
@@ -582,17 +583,6 @@
 
     // UI metinlerini güvenli yoldan (textContent/innerText) yerleştiriyoruz
     updateUITexts();
-
-    // Önceden birikmiş logları UI'a bas
-    logHistory.forEach(item => {
-      const msg = t(item.key, ...item.params);
-      const line = document.createElement('div');
-      line.style.color = item.color;
-      line.style.marginBottom = '6px';
-      line.style.wordBreak = 'break-word';
-      line.innerText = `[${item.time}] ${item.icon} ${msg} ${item.rawErr ? String(item.rawErr) : ''}`;
-      logContent.appendChild(line);
-    });
 
     // Event Dinleyicileri
     langBtn.onclick = () => {
