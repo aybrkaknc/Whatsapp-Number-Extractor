@@ -61,7 +61,7 @@ Features:
 * Auto Scroll for large groups
 * Excel-compatible CSV export (semicolon separator, UTF-8 with BOM, formula injection protection)
 * Copy numbers to the clipboard
-* Export as CSV, vCard (.vcf) or JSON, optionally only one country
+* Export as CSV, vCard (.vcf) or JSON, optionally only one country and/or only contacts not saved in your phone
 * Merge several groups into one list (with a Group column)
 * Optionally keep the list when the page reloads (cleared when the tab closes)
 * Draggable panel and live system logs

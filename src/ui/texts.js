@@ -78,6 +78,7 @@
     setText('wa-ext-set-format-label', 'setExportFormat');
     setText('wa-ext-set-filter-label', 'setExportCountry');
     setText('wa-ext-set-keep-label', 'setKeepOnReload');
+    setText('wa-ext-set-unsaved-label', 'setOnlyUnsaved');
     setText('wa-ext-set-help', 'btnHelp');
     setText('wa-ext-set-ok', 'btnOk');
 
@@ -115,7 +116,7 @@
       const el = document.getElementById(id);
       if (el) el.value = value;
     }
-    const checks = { 'wa-ext-set-sound': settings.sound, 'wa-ext-set-keep': settings.keepOnReload };
+    const checks = { 'wa-ext-set-sound': settings.sound, 'wa-ext-set-keep': settings.keepOnReload, 'wa-ext-set-unsaved': settings.onlyUnsaved };
     for (const [id, value] of Object.entries(checks)) {
       const el = document.getElementById(id);
       if (el) el.checked = value;

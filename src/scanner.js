@@ -83,6 +83,16 @@
     return name;
   };
 
+  // A member is a saved contact when the row shows a name without the "~" that WhatsApp puts
+  // before the profile name of people who are not in the phone's contacts.
+  // A row with only the number (no name) is not saved either.
+  WA.isSavedContact = (labels, phone) => {
+    const names = labels
+      .map(raw => raw.trim())
+      .filter(label => label.length > 1 && label !== phone && !PHONE_RE.test(label) && !ADMIN_TAGS.includes(label));
+    return names.length > 0 && !names.some(label => label.startsWith('~'));
+  };
+
   WA.hasAdminTag = (labels) => labels.some(label => ADMIN_TAGS.includes(label.trim()));
 
   // Name of the open chat (the group) from the conversation header; '' when not found
@@ -114,6 +124,7 @@
           name: WA.pickName(labels, text),
           phone: text,
           isAdmin: WA.hasAdminTag(labels),
+          isSaved: WA.isSavedContact(labels, text),
           group
         });
         newFound++;

@@ -48,7 +48,7 @@
 | F4 | vCard (.vcf) ve JSON dışa aktarma. | Orta | Orta | Yapıldı |
 | F5 | Yönetici sütunu (admin etiketi şu an yalnızca atlanıyor). | Orta | Düşük | Yapıldı |
 | F6 | Aynı oturumda birden fazla grubu birleştirip mükerrerleri atmak. | Yüksek | Orta | Yapıldı |
-| F7 | Filtreler: yalnızca rehberde kayıtlı olmayanlar, seçili ülkeler. | Orta | Orta | Kısmen (yalnızca ülke) |
+| F7 | Filtreler: yalnızca rehberde kayıtlı olmayanlar, seçili ülkeler. | Orta | Orta | Yapıldı |
 | F8 | İndirmeden önce ülke özeti ("Almanya: 12"). | Düşük | Düşük | Yapıldı |
 | F9 | Sayfa yenilenince toplanan listeyi korumak (yalnızca `sessionStorage`). | Düşük | Orta | Yapıldı |
 | F10 | Kopyalama biçimi seçimi: satır satır veya virgülle ayrılmış. | Düşük | Düşük | Yapıldı |
@@ -74,3 +74,4 @@
 - WhatsApp Web ve Firefox içindeki görünüm (yalnızca yerel önizlemede bakıldı).
 - Seçici dayanıklılığı, WhatsApp'ın güncel DOM'una karşı.
 - `AudioContext` sınırı tarayıcıya göre değişir, bu yüzden B4 bir tahmindir.
+- "Rehberimde kayıtlı olmayanlar" filtresi, WhatsApp'ın rehberinizde olmayan kişilerin profil adının önüne "~" koymasına dayanır. Bu, canlı WhatsApp Web üzerinde doğrulanmadı.

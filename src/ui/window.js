@@ -54,6 +54,7 @@
     bindSetting('wa-ext-set-sound', 'sound', el => el.checked);
     bindSetting('wa-ext-set-format', 'exportFormat', el => el.value);
     bindSetting('wa-ext-set-filter', 'exportCountry', el => el.value);
+    bindSetting('wa-ext-set-unsaved', 'onlyUnsaved', el => el.checked);
     // Turning it off removes the kept list from the tab right away
     bindSetting('wa-ext-set-keep', 'keepOnReload', el => el.checked, WA.savePhones);
 

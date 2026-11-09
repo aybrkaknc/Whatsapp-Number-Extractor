@@ -18,7 +18,7 @@ Nasıl çalışır:
 - Firefox ve Chrome'da çalışır
 - Türkçe ve İngilizce arayüz
 - Varsayılan ülke, CSV ayracı, kaydırma hızı, kopyalama biçimi ve ses ayarları
-- CSV, vCard ve JSON dışa aktarma, ülke filtresi, birden fazla grubu birleştirme
+- CSV, vCard ve JSON dışa aktarma, ülke ve rehberde kayıtlı olmayanlar filtreleri, birden fazla grubu birleştirme
 - E.164, yönetici ve grup sütunları, dosya adında grup adı
 - Büyük gruplar için Otomatik Kaydır, durum çubuğu ve ilerleme çubuğu
 - Formül enjeksiyonuna karşı korumalı, Excel uyumlu CSV (BOM'lu UTF-8)
@@ -43,7 +43,7 @@ Kullanıcının açık olan WhatsApp Web grubunun üye listesini, kullanıcını
 
 ## 1.3.0 sürümündeki yenilikler
 - Chrome desteği ve ayarlar penceresi
-- vCard ve JSON dışa aktarma, ülke filtresi, birden fazla grubu birleştirme
+- vCard ve JSON dışa aktarma, ülke ve rehberde kayıtlı olmayanlar filtreleri, birden fazla grubu birleştirme
 - E.164, yönetici ve grup sütunları; dosya adında grup adı
 - Durum çubuğu, ilerleme çubuğu, küçült butonu, ipuçları, azaltılmış hareket desteği
 - Türkçe karakterler Excel'de doğru görünüyor

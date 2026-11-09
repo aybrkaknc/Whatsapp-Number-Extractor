@@ -41,11 +41,13 @@
     return groups.size === 1 ? [...groups][0] : null;
   };
 
-  // Export country filter from the settings ('' keeps everything)
+  // Export filters from the settings: a country and/or only contacts not saved in the phone.
+  // Entries restored from an older session have no isSaved value and count as not saved.
   WA.filterPhones = (phones) => {
-    const dial = WA.settings && WA.settings.exportCountry;
-    if (!dial) return phones;
-    return new Map(Array.from(phones).filter(([, d]) => d.country && d.country.dial === dial));
+    const { exportCountry: dial, onlyUnsaved } = WA.settings || {};
+    if (!dial && !onlyUnsaved) return phones;
+    return new Map(Array.from(phones).filter(([, d]) =>
+      (!dial || (d.country && d.country.dial === dial)) && (!onlyUnsaved || d.isSaved !== true)));
   };
 
   WA.buildCsv = (phones) => {
@@ -96,6 +98,7 @@
     phone: d.phone,
     e164: WA.toE164(d.phone, d.country) || null,
     admin: Boolean(d.isAdmin),
+    savedContact: Boolean(d.isSaved),
     group: d.group || null
   })), null, 2);
 

@@ -48,7 +48,7 @@ Plan for version 1.3.x and later, based on a code and UI review of 1.3.0. Check 
 | F4 | vCard (.vcf) and JSON export. | Medium | Medium | Done |
 | F5 | Admin column (admin tags are skipped today). | Medium | Low | Done |
 | F6 | Merge several groups in one session and drop duplicates. | High | Medium | Done |
-| F7 | Filters: only unsaved contacts, selected countries. | Medium | Medium | Partial (country only) |
+| F7 | Filters: only unsaved contacts, selected countries. | Medium | Medium | Done |
 | F8 | Country summary before download ("Germany: 12"). | Low | Low | Done |
 | F9 | Keep the collected list across a page reload (`sessionStorage` only). | Low | Medium | Done |
 | F10 | Copy format choice: one per line or comma separated. | Low | Low | Done |
@@ -74,3 +74,4 @@ Plan for version 1.3.x and later, based on a code and UI review of 1.3.0. Check 
 - Appearance inside WhatsApp Web and Firefox (checked only in a local preview).
 - Selector durability against the current WhatsApp DOM.
 - The `AudioContext` limit differs per browser, so B4 is an estimate.
+- The "not saved in your phone" filter relies on WhatsApp showing a "~" before the profile name of people who are not in your contacts. This was not checked against the live WhatsApp Web.

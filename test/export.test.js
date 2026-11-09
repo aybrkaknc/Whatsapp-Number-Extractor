@@ -2,8 +2,8 @@ const test = require('node:test');
 const assert = require('node:assert');
 const load = require('./load');
 
-const entry = (WA, phone, name, isAdmin = false, group = '') =>
-  [WA.phoneKey(phone), { country: WA.detectCountry(phone), name, phone, isAdmin, group }];
+const entry = (WA, phone, name, isAdmin = false, group = '', isSaved = false) =>
+  [WA.phoneKey(phone), { country: WA.detectCountry(phone), name, phone, isAdmin, group, isSaved }];
 
 test('toE164 normalizes international and local numbers', () => {
   const WA = load();
@@ -83,6 +83,30 @@ test('buildVcf writes escaped vCard 3.0 contacts with E.164 numbers', () => {
 test('buildJson exports structured records', () => {
   const WA = load();
   const data = JSON.parse(WA.buildJson(new Map([entry(WA, '+49 151 23456789', 'Hans', true, 'Is')])));
-  const expected = [{ country: 'DE', dialCode: '49', name: 'Hans', phone: '+49 151 23456789', e164: '+4915123456789', admin: true, group: 'Is' }];
+  const expected = [{ country: 'DE', dialCode: '49', name: 'Hans', phone: '+49 151 23456789', e164: '+4915123456789', admin: true, savedContact: false, group: 'Is' }];
   assert.strictEqual(JSON.stringify(data), JSON.stringify(expected));
+});
+
+test('filterPhones with onlyUnsaved drops saved contacts and keeps old entries without the flag', async () => {
+  const WA = load('tr', { settings: { onlyUnsaved: true } });
+  await WA.loadSettings();
+  const phones = new Map([
+    entry(WA, '+90 532 111 22 33', 'Saved', false, '', true),
+    entry(WA, '+90 532 111 22 34', 'Unsaved', false, '', false),
+    ['+4915123456789', { country: WA.detectCountry('+49 151 23456789'), name: 'Old', phone: '+49 151 23456789' }]
+  ]);
+  const names = Array.from(WA.filterPhones(phones).values(), d => d.name);
+  assert.strictEqual(JSON.stringify(names), JSON.stringify(['Unsaved', 'Old']));
+});
+
+test('filterPhones combines the country and unsaved filters', async () => {
+  const WA = load('tr', { settings: { onlyUnsaved: true, exportCountry: '90' } });
+  await WA.loadSettings();
+  const phones = new Map([
+    entry(WA, '+90 532 111 22 33', 'TR saved', false, '', true),
+    entry(WA, '+90 532 111 22 34', 'TR unsaved', false, '', false),
+    entry(WA, '+49 151 23456789', 'DE unsaved', false, '', false)
+  ]);
+  const names = Array.from(WA.filterPhones(phones).values(), d => d.name);
+  assert.strictEqual(JSON.stringify(names), JSON.stringify(['TR unsaved']));
 });

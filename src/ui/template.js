@@ -89,6 +89,10 @@
             <select id="wa-ext-set-filter"></select>
           </div>
           <div class="field-row">
+            <input type="checkbox" id="wa-ext-set-unsaved">
+            <label for="wa-ext-set-unsaved" id="wa-ext-set-unsaved-label"></label>
+          </div>
+          <div class="field-row">
             <input type="checkbox" id="wa-ext-set-sound">
             <label for="wa-ext-set-sound" id="wa-ext-set-sound-label"></label>
           </div>

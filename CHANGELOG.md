@@ -11,7 +11,7 @@
 - Status bar with scan phase and collected / total count, progress bar when WhatsApp shows the participant count
 - Minimize button, Esc closes the panel, tooltips on icon buttons, reduced motion support
 - Settings window behind the gear, saved with the new "storage" permission: language, country for local numbers, CSV delimiter, scroll speed, copy format and sound
-- Export as vCard (.vcf) or JSON, country filter for export and copy
+- Export as vCard (.vcf) or JSON; filters for export and copy: a country and/or only contacts not saved in your phone
 - Merge several groups into one list with "Scan another group", new Group column
 - The panel now starts in English instead of following the WhatsApp page language; the language you pick is remembered
 - One-time notice in the panel about privacy and WhatsApp terms

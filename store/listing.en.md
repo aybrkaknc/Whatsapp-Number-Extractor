@@ -18,7 +18,7 @@ Features:
 - Works in Firefox and Chrome
 - Turkish and English interface
 - Settings for default country, CSV delimiter, scroll speed, copy format and sound
-- CSV, vCard and JSON export, country filter, merging several groups
+- CSV, vCard and JSON export, country and unsaved-contacts filters, merging several groups
 - E.164, admin and group columns, group name in the file name
 - Auto Scroll for large groups, status bar and progress bar
 - Excel-compatible CSV (UTF-8 with BOM) with protection against formula injection
@@ -43,7 +43,7 @@ Export the member list of a WhatsApp Web group that the user has open, to a file
 
 ## What's new in 1.3.0
 - Chrome support and a settings window
-- vCard and JSON export, country filter, merging several groups
+- vCard and JSON export, country and unsaved-contacts filters, merging several groups
 - E.164, admin and group columns; group name in the file name
 - Status bar, progress bar, minimize button, tooltips, reduced motion support
 - Turkish characters display correctly in Excel

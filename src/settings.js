@@ -15,6 +15,8 @@
     exportFormat: 'csv',
     // Calling code to export only; '' exports every country
     exportCountry: '',
+    // Export and copy only contacts that are not saved in the phone
+    onlyUnsaved: false,
     // Keep collected numbers in the tab's sessionStorage across page reloads
     keepOnReload: false,
     // The one-time privacy and terms notice was dismissed

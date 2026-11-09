@@ -60,7 +60,7 @@ WhatsApp Number Extractor, Firefox ve Chrome için bir eklentidir. WhatsApp Web 
 * "Üyeleri aratın" listesinden tek tıkla toplama
 * Büyük gruplar için Otomatik Kaydır
 * Excel uyumlu CSV çıktısı (noktalı virgül ayraç, BOM'lu UTF-8, formül enjeksiyonuna karşı koruma)
-* CSV, vCard (.vcf) veya JSON olarak, istenirse tek bir ülkeyle sınırlı dışa aktarma
+* CSV, vCard (.vcf) veya JSON olarak, istenirse tek bir ülkeyle ve/veya yalnızca rehberinizde kayıtlı olmayanlarla sınırlı dışa aktarma
 * Birden fazla grubu tek listede birleştirme (Grup sütunuyla)
 * İstenirse sayfa yenilenince listeyi koruma (sekme kapanınca silinir)
 * Numaraları panoya kopyalama
