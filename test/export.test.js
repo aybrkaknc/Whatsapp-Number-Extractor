@@ -34,8 +34,17 @@ test('buildCsv writes E.164, admin and group columns', () => {
   const WA = load('en');
   const phones = new Map([entry(WA, '+90 532 111 22 33', 'Ali', true, 'Aile')]);
   const lines = WA.buildCsv(phones).split('\n');
-  assert.strictEqual(lines[1], 'Country;Name/Surname;Phone Number;E.164;Admin;Group');
-  assert.ok(lines[2].endsWith(';"=""+905321112233""";"Yes";"Aile"'), lines[2]);
+  assert.strictEqual(lines[0], 'Country;Name/Surname;Phone Number;E.164;Admin;Group');
+  assert.ok(lines[1].endsWith(';"=""+905321112233""";"Yes";"Aile"'), lines[1]);
+});
+
+test('buildCsv has no sep= line, which would break the UTF-8 BOM in Excel', () => {
+  const WA = load('tr');
+  const phones = new Map([entry(WA, '+90 532 111 22 33', 'Çağrı Şahin')]);
+  const csv = WA.buildCsv(phones);
+  assert.ok(!csv.startsWith('sep='));
+  assert.ok(csv.startsWith('Ülke;'), csv);
+  assert.ok(csv.includes('"Türkiye (+90)";"Çağrı Şahin"'), csv);
 });
 
 test('exportFileName uses the group name and extension, dropping invalid characters', () => {

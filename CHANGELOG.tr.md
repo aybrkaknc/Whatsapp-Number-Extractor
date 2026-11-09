@@ -20,6 +20,7 @@
 
 ### Düzeltilenler
 - Otomatik Kaydır, indirmeden sonra iki tıklama gerektiriyordu
+- Excel'de Türkçe karakterler "TÃ¼rkiye" gibi bozuk görünüyordu; CSV artık "sep=" satırı içermiyor
 - Dil değiştirince log saatleri değişiyordu
 - CSV değerleri tırnaklanıyor, kaçırılıyor ve formül enjeksiyonuna karşı korunuyor
 - Aynı numara farklı biçimlerde görünse de bir kez toplanıyor

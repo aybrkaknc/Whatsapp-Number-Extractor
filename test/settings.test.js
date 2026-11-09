@@ -41,9 +41,8 @@ test('buildCsv uses the delimiter from the settings', async () => {
   await WA.loadSettings();
   const phones = new Map([['+905321112233', { country: WA.detectCountry('+90 532 111 22 33'), name: 'Ali', phone: '+90 532 111 22 33', isAdmin: false }]]);
   const lines = WA.buildCsv(phones).split('\n');
-  assert.strictEqual(lines[0], 'sep=,');
-  assert.strictEqual(lines[1], 'Country,Name/Surname,Phone Number,E.164,Admin,Group');
-  assert.strictEqual(lines[2].split('","').length, 6);
+  assert.strictEqual(lines[0], 'Country,Name/Surname,Phone Number,E.164,Admin,Group');
+  assert.strictEqual(lines[1].split('","').length, 6);
 });
 
 test('countryOptions lists named countries sorted for the UI language', () => {

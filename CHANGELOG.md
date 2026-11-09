@@ -20,6 +20,7 @@
 
 ### Fixed
 - Auto Scroll needed two clicks after a download
+- Turkish characters showed as "TÃ¼rkiye" in Excel; the CSV no longer has a "sep=" line
 - Log timestamps changed when switching language
 - CSV values are quoted, escaped and protected against formula injection
 - The same number in different formats is collected once

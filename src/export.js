@@ -51,8 +51,10 @@
   WA.buildCsv = (phones) => {
     const t = WA.t;
     const sep = (WA.settings && WA.settings.delimiter) || ';';
-    // The sep= line lets Excel detect the delimiter; headers are stored with ';'
-    const rows = [`sep=${sep}`, t('csvHeaders').split(';').join(sep)];
+    // No "sep=" line: placed after the UTF-8 BOM it makes Excel read the file as ANSI (TÃ¼rkiye).
+    // Excel then uses the system list separator, which is ';' on Turkish systems (see the delimiter setting).
+    // Headers are stored with ';'.
+    const rows = [t('csvHeaders').split(';').join(sep)];
     for (const data of phones.values()) {
       rows.push([
         phoneCell(WA.formatCountry(data.country)),
