@@ -55,12 +55,12 @@ Plan for version 1.3.x and later, based on a code and UI review of 1.3.0. Check 
 
 ## 5. Release, security and process
 
-- [ ] **R1** Store risk: Chrome Web Store reviews data collection strictly. State the purpose and that data stays on the device in the listing.
-- [ ] **R2** One-time notice in the panel about privacy and WhatsApp terms (informational).
-- [ ] **R3** Store assets: 1280x800 screenshots, small promo tile, product screenshot for the README template.
-- [ ] **R4** GitHub Actions: `web-ext lint` and `web-ext build`, attach the zip to tagged releases.
-- [ ] **R5** One script that keeps `manifest.json` and `package.json` versions in sync.
-- [ ] **R6** `.gitattributes` with `* text=auto eol=lf` to stop the LF/CRLF warnings.
+- [x] **R1** Store risk: Chrome Web Store reviews data collection strictly. State the purpose and that data stays on the device in the listing.
+- [x] **R2** One-time notice in the panel about privacy and WhatsApp terms (informational).
+- [x] **R3** Store assets: 1280x800 screenshots, small promo tile, product screenshot for the README template.
+- [x] **R4** GitHub Actions: `web-ext lint` and `web-ext build`, attach the zip to tagged releases.
+- [x] **R5** One script that keeps `manifest.json` and `package.json` versions in sync.
+- [x] **R6** `.gitattributes` with `* text=auto eol=lf` to stop the LF/CRLF warnings.
 - [ ] **R7** Chrome manual test (load unpacked) for every step of the checklist.
 
 ## 6. Order of work

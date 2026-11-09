@@ -55,12 +55,12 @@
 
 ## 5. Yayın, güvenlik ve süreç
 
-- [ ] **R1** Mağaza riski: Chrome Web Store veri toplamayı sıkı inceler. Listede amacı ve verinin cihazda kaldığını açıkça yazmak.
-- [ ] **R2** Panelde bir kez gösterilen gizlilik ve WhatsApp şartları bilgi notu (bilgilendirme amaçlı).
-- [ ] **R3** Mağaza görselleri: 1280x800 ekran görüntüleri, küçük tanıtım kutusu, README şablonu için ürün ekran görüntüsü.
-- [ ] **R4** GitHub Actions: `web-ext lint` ve `web-ext build`, etiketli sürümlere zip eklemek.
-- [ ] **R5** `manifest.json` ve `package.json` sürümlerini senkron tutan tek betik.
-- [ ] **R6** LF/CRLF uyarılarını bitirmek için `* text=auto eol=lf` içeren `.gitattributes`.
+- [x] **R1** Mağaza riski: Chrome Web Store veri toplamayı sıkı inceler. Listede amacı ve verinin cihazda kaldığını açıkça yazmak.
+- [x] **R2** Panelde bir kez gösterilen gizlilik ve WhatsApp şartları bilgi notu (bilgilendirme amaçlı).
+- [x] **R3** Mağaza görselleri: 1280x800 ekran görüntüleri, küçük tanıtım kutusu, README şablonu için ürün ekran görüntüsü.
+- [x] **R4** GitHub Actions: `web-ext lint` ve `web-ext build`, etiketli sürümlere zip eklemek.
+- [x] **R5** `manifest.json` ve `package.json` sürümlerini senkron tutan tek betik.
+- [x] **R6** LF/CRLF uyarılarını bitirmek için `* text=auto eol=lf` içeren `.gitattributes`.
 - [ ] **R7** Kontrol listesindeki her adım için Chrome'da elle test (paketlenmemiş öğe yükle).
 
 ## 6. Çalışma sırası

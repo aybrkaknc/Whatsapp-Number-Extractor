@@ -52,6 +52,8 @@
 
 ## About The Project
 
+[![Product Screenshot][product-screenshot]](https://github.com/aybrkaknc/Whatsapp-Number-Extractor)
+
 WhatsApp Number Extractor is a Firefox and Chrome extension. It reads the member list of a WhatsApp Web group and exports the names and phone numbers as a CSV file. The interface is a Windows 98 style panel with Turkish and English language support.
 
 Features:
@@ -118,8 +120,11 @@ npm start           # Firefox with hot reload
 npm run start:chrome
 npm run lint
 npm test
+npm run bump -- 1.4.0  # same version in manifest.json and package.json
 npm run build
 ```
+
+GitHub Actions runs the tests, lint and build on every push. Pushing a v* tag that matches the manifest version creates a release with the package.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -177,6 +182,7 @@ Project Link: [https://github.com/aybrkaknc/Whatsapp-Number-Extractor](https://g
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
+[product-screenshot]: images/screenshot-en.png
 [contributors-shield]: https://img.shields.io/github/contributors/aybrkaknc/Whatsapp-Number-Extractor.svg?style=for-the-badge
 [contributors-url]: https://github.com/aybrkaknc/Whatsapp-Number-Extractor/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/aybrkaknc/Whatsapp-Number-Extractor.svg?style=for-the-badge

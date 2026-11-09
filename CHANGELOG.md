@@ -13,6 +13,8 @@
 - Settings window behind the gear, saved with the new "storage" permission: language, country for local numbers, CSV delimiter, scroll speed, copy format and sound
 - Export as vCard (.vcf) or JSON, country filter for export and copy
 - Merge several groups into one list with "Scan another group", new Group column
+- One-time notice in the panel about privacy and WhatsApp terms
+- Store screenshots, promo tile and README screenshot; CI with tests, lint, build and tagged releases; version sync script
 - Optional: keep the collected list across page reloads in the same tab
 - CSV has E.164 and Admin columns, the file name includes the group name, and a country summary is logged on export
 - Store listings in English and Turkish (store/)
