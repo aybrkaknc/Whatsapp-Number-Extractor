@@ -8,7 +8,8 @@
     "start:chrome": "web-ext run --target=chromium",
     "lint": "web-ext lint",
     "build": "web-ext build --overwrite-dest",
-    "test": "node --test \"test/*.test.js\""
+    "test": "node --test \"test/*.test.js\"",
+    "bump": "node scripts/bump-version.js"
   },
   "devDependencies": {
     "web-ext": "^10.0.0"
@@ -25,7 +26,16 @@
       "docs/**",
       "store/**",
       "*.xpi",
-      "test/**"
+      "test/**",
+      "scripts/**",
+      ".github/**",
+      ".gitattributes",
+      "docs",
+      "scripts",
+      "store",
+      "test",
+      "images",
+      "images/**"
     ]
   }
 }
