@@ -59,6 +59,9 @@ Features:
 * Auto Scroll for large groups
 * Excel-compatible CSV export (semicolon separator, UTF-8 with BOM, formula injection protection)
 * Copy numbers to the clipboard
+* Export as CSV, vCard (.vcf) or JSON, optionally only one country
+* Merge several groups into one list (with a Group column)
+* Optionally keep the list when the page reloads (cleared when the tab closes)
 * Draggable panel and live system logs
 * Turkish and English interface
 * Settings (gear): country for local numbers, CSV delimiter, scroll speed, copy format and sound, saved in the browser
@@ -103,7 +106,7 @@ Install from [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/wh
 5. (Optional) Press **Auto Scroll** to scan the whole list
 6. Press **Finish & DL** to download the CSV, or **Copy to Clipboard** to copy the numbers
 
-If the modal is closed during a scan, the scan stops and the collected numbers are kept. Press **Finish & DL** to download them.
+If the modal is closed during a scan, the scan stops and the collected numbers are kept. Press **Finish & DL** to download them, or open another group and press **Scan another group** to add its members to the same list.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

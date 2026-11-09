@@ -16,6 +16,7 @@ Features:
 - Works in Firefox and Chrome
 - Turkish and English interface
 - Settings for default country, CSV delimiter, scroll speed, copy format and sound
+- CSV, vCard and JSON export, country filter, merging several groups
 - Auto Scroll for large groups
 - Excel-compatible CSV (semicolon separator, UTF-8 with BOM)
 - Protection against spreadsheet formula injection in exported values

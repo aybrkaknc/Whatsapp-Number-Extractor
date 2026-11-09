@@ -71,9 +71,25 @@
               <option value="comma"></option>
             </select>
           </div>
+          <div class="field-row-stacked">
+            <label for="wa-ext-set-format" id="wa-ext-set-format-label"></label>
+            <select id="wa-ext-set-format">
+              <option value="csv"></option>
+              <option value="vcf"></option>
+              <option value="json"></option>
+            </select>
+          </div>
+          <div class="field-row-stacked">
+            <label for="wa-ext-set-filter" id="wa-ext-set-filter-label"></label>
+            <select id="wa-ext-set-filter"></select>
+          </div>
           <div class="field-row">
             <input type="checkbox" id="wa-ext-set-sound">
             <label for="wa-ext-set-sound" id="wa-ext-set-sound-label"></label>
+          </div>
+          <div class="field-row">
+            <input type="checkbox" id="wa-ext-set-keep">
+            <label for="wa-ext-set-keep" id="wa-ext-set-keep-label"></label>
           </div>
         </fieldset>
         <div class="wa-ext-set-buttons">

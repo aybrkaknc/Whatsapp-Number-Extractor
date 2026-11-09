@@ -35,10 +35,11 @@
     };
 
     // Settings are saved as soon as a field changes
-    const bindSetting = (id, key, read) => {
+    const bindSetting = (id, key, read, after) => {
       document.getElementById(id).onchange = (e) => {
         WA.saveSettings({ [key]: read(e.target) });
         Logger.info('logSettingsSaved');
+        if (after) after();
       };
     };
     bindSetting('wa-ext-set-country', 'defaultDial', el => el.value);
@@ -46,6 +47,10 @@
     bindSetting('wa-ext-set-speed', 'scrollSpeed', el => el.value);
     bindSetting('wa-ext-set-copy', 'copyFormat', el => el.value);
     bindSetting('wa-ext-set-sound', 'sound', el => el.checked);
+    bindSetting('wa-ext-set-format', 'exportFormat', el => el.value);
+    bindSetting('wa-ext-set-filter', 'exportCountry', el => el.value);
+    // Turning it off removes the kept list from the tab right away
+    bindSetting('wa-ext-set-keep', 'keepOnReload', el => el.checked, WA.savePhones);
 
     document.getElementById('wa-ext-btn-github').onclick = () => {
       window.open('https://github.com/aybrkaknc/Whatsapp-Number-Extractor', '_blank');

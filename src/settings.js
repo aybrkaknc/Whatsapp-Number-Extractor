@@ -10,7 +10,13 @@
     delimiter: ';',
     sound: true,
     scrollSpeed: 'normal',
-    copyFormat: 'lines'
+    copyFormat: 'lines',
+    // 'csv', 'vcf' or 'json'
+    exportFormat: 'csv',
+    // Calling code to export only; '' exports every country
+    exportCountry: '',
+    // Keep collected numbers in the tab's sessionStorage across page reloads
+    keepOnReload: false
   };
 
   WA.SCROLL_INTERVALS = { slow: 1200, normal: 800, fast: 500 };

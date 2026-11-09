@@ -53,7 +53,9 @@
       copyBtn.classList.remove('hide');
       stopBtn.classList.remove('hide');
 
-      state.total = WA.findParticipantTotal();
+      autoBtn.innerText = t('btnAutoScroll');
+      // A merged list spans several groups, so one group's participant count is no longer a total
+      state.total = state.phones.size > 0 ? null : WA.findParticipantTotal();
       WA.setPhase('phaseScanning');
       WA.scanVisibleNumbers(scrollArea);
 
@@ -83,7 +85,11 @@
           stopAutoScroll();
           autoBtn.innerText = t('btnScrollResume');
         }
+        // Another group can be opened and scanned into the same list
+        startBtn.classList.remove('hide');
+        autoBtn.classList.add('hide');
         WA.setPhase('phaseStopped');
+        WA.renderStatus();
       }, 1000);
     };
 
@@ -137,8 +143,13 @@
         WA.showNotice('alertNoNum');
         return;
       }
+      const phones = WA.filterPhones(state.phones);
+      if (phones.size === 0) {
+        WA.showNotice('warnFilterEmpty');
+        return;
+      }
       const separator = WA.settings.copyFormat === 'comma' ? ', ' : '\n';
-      navigator.clipboard.writeText(Array.from(state.phones.values(), p => p.phone).join(separator)).then(() => {
+      navigator.clipboard.writeText(Array.from(phones.values(), p => p.phone).join(separator)).then(() => {
         const oldText = copyBtn.innerText;
         copyBtn.innerText = t('alertCopied');
         setTimeout(() => copyBtn.innerText = oldText, 2000);
@@ -159,12 +170,22 @@
       stopAutoScroll();
 
       const isEmpty = state.phones.size === 0;
+      const phones = WA.filterPhones(state.phones);
+
+      // Nothing matches the country filter: keep the list so the filter can be changed
+      if (!isEmpty && phones.size === 0) {
+        WA.setPhase('phaseStopped');
+        WA.showNotice('warnFilterEmpty');
+        return;
+      }
+
       let exportFailed = false;
       if (!isEmpty) {
         try {
-          Logger.info('logCountrySummary', WA.countrySummary(state.phones));
-          WA.downloadCsv(state.phones);
-          Logger.info('logExportSuccess', state.phones.size);
+          Logger.info('logCountrySummary', WA.countrySummary(phones));
+          if (phones.size !== state.phones.size) Logger.info('logFiltered', phones.size, state.phones.size);
+          WA.downloadExport(phones);
+          Logger.info('logExportSuccess', phones.size);
         } catch (err) {
           Logger.error('errExport', err);
           exportFailed = true;
@@ -194,6 +215,7 @@
       state.phones.clear();
       state.total = null;
       state.phase = 'phaseReady';
+      WA.savePhones();
       WA.renderStatus();
       // Shown after the reset so renderStatus() does not overwrite it
       if (isEmpty) WA.showNotice('alertNoNum');

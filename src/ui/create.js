@@ -38,5 +38,11 @@
     WA.updateUITexts();
     WA.bindWindow(scopeWrapper);
     WA.bindActions();
+
+    // A restored or kept list can be copied and downloaded right away
+    if (state.phones.size > 0) {
+      document.getElementById('wa-ext-btn-copy').classList.remove('hide');
+      document.getElementById('wa-ext-btn-stop').classList.remove('hide');
+    }
   };
 })();

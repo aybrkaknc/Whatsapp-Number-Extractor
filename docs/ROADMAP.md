@@ -45,12 +45,12 @@ Plan for version 1.3.x and later, based on a code and UI review of 1.3.0. Check 
 | F1 | Real settings window behind the gear: remembered language, default country, CSV delimiter, sound, scroll speed. Help link inside. | High | Medium | Done |
 | F2 | E.164 column (`+905321112233`) for CRM and imports. | High | Low | Done |
 | F3 | Group name in the file name (`wa_<group>_<date>.csv`). | Medium | Low | Done |
-| F4 | vCard (.vcf) and JSON export. | Medium | Medium | Open |
+| F4 | vCard (.vcf) and JSON export. | Medium | Medium | Done |
 | F5 | Admin column (admin tags are skipped today). | Medium | Low | Done |
-| F6 | Merge several groups in one session and drop duplicates. | High | Medium | Open |
-| F7 | Filters: only unsaved contacts, selected countries. | Medium | Medium | Open |
+| F6 | Merge several groups in one session and drop duplicates. | High | Medium | Done |
+| F7 | Filters: only unsaved contacts, selected countries. | Medium | Medium | Partial (country only) |
 | F8 | Country summary before download ("Germany: 12"). | Low | Low | Done |
-| F9 | Keep the collected list across a page reload (`sessionStorage` only). | Low | Medium | Open |
+| F9 | Keep the collected list across a page reload (`sessionStorage` only). | Low | Medium | Done |
 | F10 | Copy format choice: one per line or comma separated. | Low | Low | Done |
 
 ## 5. Release, security and process

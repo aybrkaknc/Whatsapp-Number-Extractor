@@ -18,6 +18,9 @@
     // Nothing to copy yet
     const copyBtn = document.getElementById('wa-ext-btn-copy');
     if (copyBtn) copyBtn.disabled = phones.size === 0;
+    // With numbers already collected, Start adds another group to the same list
+    const startBtn = document.getElementById('wa-ext-btn-start');
+    if (startBtn) startBtn.innerText = t(phones.size > 0 ? 'btnScanNext' : 'btnStart');
 
     WA.renderStatusBar();
   };
@@ -72,13 +75,17 @@
     setText('wa-ext-set-speed-label', 'setScrollSpeed');
     setText('wa-ext-set-copy-label', 'setCopyFormat');
     setText('wa-ext-set-sound-label', 'setSound');
+    setText('wa-ext-set-format-label', 'setExportFormat');
+    setText('wa-ext-set-filter-label', 'setExportCountry');
+    setText('wa-ext-set-keep-label', 'setKeepOnReload');
     setText('wa-ext-set-help', 'btnHelp');
     setText('wa-ext-set-ok', 'btnOk');
 
     const optionKeys = {
       'wa-ext-set-delimiter': { ';': 'delimiterSemicolon', ',': 'delimiterComma' },
       'wa-ext-set-speed': { slow: 'speedSlow', normal: 'speedNormal', fast: 'speedFast' },
-      'wa-ext-set-copy': { lines: 'copyLines', comma: 'copyComma' }
+      'wa-ext-set-copy': { lines: 'copyLines', comma: 'copyComma' },
+      'wa-ext-set-format': { csv: 'formatCsv', vcf: 'formatVcf', json: 'formatJson' }
     };
     for (const [id, keys] of Object.entries(optionKeys)) {
       const select = document.getElementById(id);
@@ -87,18 +94,32 @@
     }
 
     // Country names depend on the UI language, so the list is rebuilt each time
+    const countries = WA.countryOptions();
     const country = document.getElementById('wa-ext-set-country');
     if (country) {
-      country.replaceChildren(...WA.countryOptions().map(({ dial, label }) => new Option(label, dial)));
+      country.replaceChildren(...countries.map(({ dial, label }) => new Option(label, dial)));
       country.value = settings.defaultDial;
     }
-    const values = { 'wa-ext-set-delimiter': settings.delimiter, 'wa-ext-set-speed': settings.scrollSpeed, 'wa-ext-set-copy': settings.copyFormat };
+    const filter = document.getElementById('wa-ext-set-filter');
+    if (filter) {
+      filter.replaceChildren(new Option(t('allCountries'), ''), ...countries.map(({ dial, label }) => new Option(label, dial)));
+      filter.value = settings.exportCountry;
+    }
+    const values = {
+      'wa-ext-set-delimiter': settings.delimiter,
+      'wa-ext-set-speed': settings.scrollSpeed,
+      'wa-ext-set-copy': settings.copyFormat,
+      'wa-ext-set-format': settings.exportFormat
+    };
     for (const [id, value] of Object.entries(values)) {
       const el = document.getElementById(id);
       if (el) el.value = value;
     }
-    const sound = document.getElementById('wa-ext-set-sound');
-    if (sound) sound.checked = settings.sound;
+    const checks = { 'wa-ext-set-sound': settings.sound, 'wa-ext-set-keep': settings.keepOnReload };
+    for (const [id, value] of Object.entries(checks)) {
+      const el = document.getElementById(id);
+      if (el) el.checked = value;
+    }
   };
 
   // In-panel replacement for alert(); stays until the next renderStatus().
@@ -126,7 +147,6 @@
       if (el) el.innerText = t(key);
     };
 
-    setText('wa-ext-btn-start', 'btnStart');
     setText('wa-ext-btn-stop', 'btnStop');
     setText('wa-ext-btn-copy', 'btnCopy');
     setText('wa-ext-btn-log', state.isLogOpen ? 'btnSysLogsClose' : 'btnSysLogs');

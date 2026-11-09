@@ -120,6 +120,11 @@
 #wa-98-scope #wa-ext-settings select {
   width: 100%;
 }
+/* The panel grows upward from the bottom corner; scroll instead of pushing the title bar off screen */
+#wa-98-scope #wa-ext-settings {
+  max-height: 70vh;
+  overflow-y: auto;
+}
 #wa-98-scope .wa-ext-set-buttons {
   display: flex;
   justify-content: space-between;

@@ -45,12 +45,12 @@
 | F1 | Dişlinin açtığı gerçek ayarlar penceresi: kalıcı dil, varsayılan ülke, CSV ayracı, ses, kaydırma hızı. İçinde yardım bağlantısı. | Yüksek | Orta | Yapıldı |
 | F2 | CRM ve içe aktarma için E.164 sütunu (`+905321112233`). | Yüksek | Düşük | Yapıldı |
 | F3 | Dosya adında grup adı (`wa_<grup>_<tarih>.csv`). | Orta | Düşük | Yapıldı |
-| F4 | vCard (.vcf) ve JSON dışa aktarma. | Orta | Orta | Açık |
+| F4 | vCard (.vcf) ve JSON dışa aktarma. | Orta | Orta | Yapıldı |
 | F5 | Yönetici sütunu (admin etiketi şu an yalnızca atlanıyor). | Orta | Düşük | Yapıldı |
-| F6 | Aynı oturumda birden fazla grubu birleştirip mükerrerleri atmak. | Yüksek | Orta | Açık |
-| F7 | Filtreler: yalnızca rehberde kayıtlı olmayanlar, seçili ülkeler. | Orta | Orta | Açık |
+| F6 | Aynı oturumda birden fazla grubu birleştirip mükerrerleri atmak. | Yüksek | Orta | Yapıldı |
+| F7 | Filtreler: yalnızca rehberde kayıtlı olmayanlar, seçili ülkeler. | Orta | Orta | Kısmen (yalnızca ülke) |
 | F8 | İndirmeden önce ülke özeti ("Almanya: 12"). | Düşük | Düşük | Yapıldı |
-| F9 | Sayfa yenilenince toplanan listeyi korumak (yalnızca `sessionStorage`). | Düşük | Orta | Açık |
+| F9 | Sayfa yenilenince toplanan listeyi korumak (yalnızca `sessionStorage`). | Düşük | Orta | Yapıldı |
 | F10 | Kopyalama biçimi seçimi: satır satır veya virgülle ayrılmış. | Düşük | Düşük | Yapıldı |
 
 ## 5. Yayın, güvenlik ve süreç

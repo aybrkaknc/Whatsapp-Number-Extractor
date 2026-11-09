@@ -97,6 +97,8 @@
 
     try {
       let newFound = 0;
+      // Stored per number so lists merged from several groups keep their origin
+      const group = WA.findGroupName();
 
       container.querySelectorAll('span[dir="auto"]').forEach(span => {
         const text = span.textContent.trim();
@@ -111,7 +113,8 @@
           country: WA.detectCountry(text),
           name: WA.pickName(labels, text),
           phone: text,
-          isAdmin: WA.hasAdminTag(labels)
+          isAdmin: WA.hasAdminTag(labels),
+          group
         });
         newFound++;
         WA.renderStatus();
@@ -119,6 +122,7 @@
 
       if (newFound > 0) {
         Logger.info('logScanSuccess', newFound, phones.size);
+        WA.savePhones();
       }
     } catch (err) {
       Logger.error('errScanFail', err);
