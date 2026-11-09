@@ -88,6 +88,14 @@
             <label for="wa-ext-set-filter" id="wa-ext-set-filter-label"></label>
             <select id="wa-ext-set-filter"></select>
           </div>
+          <div class="field-row-stacked">
+            <label for="wa-ext-set-motion" id="wa-ext-set-motion-label"></label>
+            <select id="wa-ext-set-motion">
+              <option value="system"></option>
+              <option value="on"></option>
+              <option value="off"></option>
+            </select>
+          </div>
           <div class="field-row">
             <input type="checkbox" id="wa-ext-set-unsaved">
             <label for="wa-ext-set-unsaved" id="wa-ext-set-unsaved-label"></label>

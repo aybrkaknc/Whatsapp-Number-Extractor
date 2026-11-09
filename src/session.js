@@ -6,7 +6,19 @@
   const KEY = 'wa-extractor-phones';
   const session = () => globalThis.sessionStorage;
 
+  let timer = null;
+
+  // Writing the whole list is costly once it is long, so while scanning it is saved at most once a
+  // second, not after every batch. Nothing is scheduled at all when the option is off.
+  WA.savePhonesSoon = () => {
+    if (!WA.settings.keepOnReload || timer !== null) return;
+    timer = setTimeout(() => WA.savePhones(), 1000);
+  };
+
+  // Saves right now (Finish & DL, turning the option off, leaving the page)
   WA.savePhones = () => {
+    clearTimeout(timer);
+    timer = null;
     try {
       if (!WA.settings.keepOnReload || WA.state.phones.size === 0) {
         session().removeItem(KEY);

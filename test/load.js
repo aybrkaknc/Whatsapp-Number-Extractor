@@ -14,6 +14,7 @@ const FILES = [
   'src/logger.js',
   'src/country.js',
   'src/export.js',
+  'src/ui/motion.js',
   'src/scanner.js'
 ];
 
@@ -32,7 +33,7 @@ const create = (pageLang, store, session) => {
     removeItem: (key) => { session.delete(key); }
   };
   const context = vm.createContext({
-    document: { documentElement: { lang: pageLang } }, Intl, console, sessionStorage, chrome: { storage: { local: storage } }
+    document: { documentElement: { lang: pageLang }, getElementById: () => null }, Intl, console, sessionStorage, setTimeout, clearTimeout, requestAnimationFrame: () => 0, cancelAnimationFrame: () => {}, chrome: { storage: { local: storage } }
   });
   for (const file of FILES) {
     vm.runInContext(fs.readFileSync(path.join(ROOT, file), 'utf8'), context, { filename: file });

@@ -6,6 +6,7 @@
     if (!status) return;
     const t = WA.t;
     const phones = WA.state.phones;
+    const before = status.textContent;
     status.style.color = '#00ff00';
     status.style.wordBreak = 'break-all';
     if (phones.size === 0) {
@@ -14,6 +15,8 @@
       const lastNum = Array.from(phones.values()).pop().phone;
       status.textContent = `> ${t('statusCollected')}: ${phones.size}\n> ${t('statusLast')}: ${lastNum}`;
     }
+    // Flash only when the text really changed, and never restart a flash that is still running
+    if (status.textContent !== before) WA.replay(status, 'wa-tick', { restart: false });
 
     // Nothing to copy yet
     const copyBtn = document.getElementById('wa-ext-btn-copy');
@@ -36,7 +39,7 @@
     const progress = document.getElementById('wa-ext-progress');
     const bar = document.getElementById('wa-ext-progress-bar');
     if (!progress || !bar) return;
-    progress.classList.toggle('hide', !state.total);
+    WA.setHidden(progress, !state.total);
     if (state.total) bar.style.width = `${Math.min(100, Math.round(state.phones.size / state.total * 100))}%`;
   };
 
@@ -45,13 +48,22 @@
     WA.renderStatusBar();
   };
 
-  // Shows the main or settings view; minimized panels keep only the title bar and the status bar
-  WA.renderMinimized = () => {
+  // Shows the main or settings view; minimized panels keep only the title bar and the status bar.
+  // motion: 'instant' (no animation), 'right' / 'left' (the new view slides in from that side) or
+  // 'up' (minimize and restore, the content slides away and back vertically).
+  WA.renderMinimized = (motion = 'instant') => {
     const { state, t } = WA;
-    const main = document.getElementById('wa-ext-main');
-    const settings = document.getElementById('wa-ext-settings');
-    if (main) main.classList.toggle('hide', state.minimized || state.view !== 'main');
-    if (settings) settings.classList.toggle('hide', state.minimized || state.view !== 'settings');
+    const enter = {
+      instant: motion === 'instant',
+      dx: motion === 'right' ? 12 : motion === 'left' ? -12 : 0,
+      dy: motion === 'up' ? 6 : 0
+    };
+    // Only minimize animates content away; a view switch hides the old view at once so two views never stack
+    const leave = { instant: motion !== 'up', dy: 6 };
+    const apply = (el, hidden) => WA.setHidden(el, hidden, hidden ? leave : enter);
+
+    apply(document.getElementById('wa-ext-main'), state.minimized || state.view !== 'main');
+    apply(document.getElementById('wa-ext-settings'), state.minimized || state.view !== 'settings');
     if (state.view === 'settings') WA.renderSettings();
     const btn = document.getElementById('wa-ext-btn-minimize');
     if (!btn) return;
@@ -79,6 +91,7 @@
     setText('wa-ext-set-filter-label', 'setExportCountry');
     setText('wa-ext-set-keep-label', 'setKeepOnReload');
     setText('wa-ext-set-unsaved-label', 'setOnlyUnsaved');
+    setText('wa-ext-set-motion-label', 'setMotion');
     setText('wa-ext-set-help', 'btnHelp');
     setText('wa-ext-set-ok', 'btnOk');
 
@@ -86,7 +99,8 @@
       'wa-ext-set-delimiter': { ';': 'delimiterSemicolon', ',': 'delimiterComma' },
       'wa-ext-set-speed': { slow: 'speedSlow', normal: 'speedNormal', fast: 'speedFast' },
       'wa-ext-set-copy': { lines: 'copyLines', comma: 'copyComma' },
-      'wa-ext-set-format': { csv: 'formatCsv', vcf: 'formatVcf', json: 'formatJson' }
+      'wa-ext-set-format': { csv: 'formatCsv', vcf: 'formatVcf', json: 'formatJson' },
+      'wa-ext-set-motion': { system: 'motionSystem', on: 'motionOn', off: 'motionOff' }
     };
     for (const [id, keys] of Object.entries(optionKeys)) {
       const select = document.getElementById(id);
@@ -110,7 +124,8 @@
       'wa-ext-set-delimiter': settings.delimiter,
       'wa-ext-set-speed': settings.scrollSpeed,
       'wa-ext-set-copy': settings.copyFormat,
-      'wa-ext-set-format': settings.exportFormat
+      'wa-ext-set-format': settings.exportFormat,
+      'wa-ext-set-motion': settings.motion
     };
     for (const [id, value] of Object.entries(values)) {
       const el = document.getElementById(id);
@@ -137,6 +152,8 @@
       status.style.color = '#ffeb3b';
       status.textContent = `> ${t(key)}`;
     }
+    // The notice slides in; a new one restarts the slide
+    WA.replay(status, 'wa-pop');
   };
 
   // Re-applies every user-facing text in the current language
@@ -159,7 +176,7 @@
     const autoBtn = document.getElementById('wa-ext-btn-auto');
     if (autoBtn) {
       const current = autoBtn.innerText;
-      if (state.autoScrollInterval || current.includes('Durdur') || current.includes('Stop')) {
+      if (state.autoScroller || current.includes('Durdur') || current.includes('Stop')) {
         autoBtn.innerText = t('btnScrollStop');
       } else if (current.includes('Devam') || current.includes('Resume')) {
         autoBtn.innerText = t('btnScrollResume');
@@ -185,7 +202,8 @@
     setText('wa-ext-notice-text', 'noticeText');
     setText('wa-ext-notice-ok', 'noticeOk');
     const notice = document.getElementById('wa-ext-notice');
-    if (notice) notice.classList.toggle('hide', WA.settings.noticeSeen);
+    // Instant: this also runs on a language switch, which should not replay the entrance
+    WA.setHidden(notice, WA.settings.noticeSeen, { instant: true });
 
     WA.renderStatus();
     WA.renderMinimized();

@@ -25,6 +25,7 @@
 - [x] **L7** Panel yeniden kurulduğunda zamanlayıcıları ve durumu sıfırlamak.
 - [x] **L8** Saf fonksiyonlar (`detectCountry`, `csvCell`, isim ayrıştırma) için yerleşik `node:test` ile birim testler (yalnızca istenirse).
 - [x] **L9** `feedback` adlarını `help` olarak değiştirmek (`logFeedbackOpen`, `wa-ext-btn-feedback`).
+- [x] **L10** Otomatik Kaydır her aralıkta bir ekran sıçramak yerine, kare başına küçük adımla ve yumuşak başlayarak sürekli ilerliyor (`src/autoscroll.js`).
 
 ## 3. Görsel ve etkileşim
 
@@ -37,6 +38,7 @@
 - [x] **V7** `prefers-reduced-motion` ayarına uymak.
 - [x] **V8** Durum kutusunda `aria-live="polite"`, Esc ile paneli kapatmak.
 - [x] **V9** Dar ekranlarda panel genişliğini 90vw ile sınırlamak.
+- [x] **V10** Tüm panel için tek bir animasyon sistemi ([ANIMATIONS.tr.md](ANIMATIONS.tr.md)) ve Animasyonlar ayarı.
 
 ## 4. Özellik önerileri
 

@@ -13,6 +13,11 @@
 - Settings window behind the gear, saved with the new "storage" permission: language, country for local numbers, CSV delimiter, scroll speed, copy format and sound
 - Export as vCard (.vcf) or JSON; filters for export and copy: a country and/or only contacts not saved in your phone
 - Merge several groups into one list with "Scan another group", new Group column
+- Auto Scroll stays smooth while new rows load: scanning runs when the browser is idle, the status box, log and saved list are updated once per batch instead of per number, and the log keeps its last 300 lines
+- Auto Scroll now scrolls the list continuously and eases in, instead of jumping a screen at a time. The speed setting is in list heights per second (slow 0.4, normal 0.7, fast 1.2)
+- Auto Scroll now scrolls the list continuously and eases in, instead of jumping a screen at a time. The speed setting is in list heights per second (slow 0.4, normal 0.7, fast 1.2)
+- One animation system for the whole panel: shared durations and step easings, views that slide in, minimize, staggered buttons, a progress bar that fills in steps, flashing status box, sliding notices and log lines; new Animations setting (follow the system, always on, off). See docs/ANIMATIONS.md
+- Fixed: closing and quickly reopening the panel could hide it again
 - The panel now starts in English instead of following the WhatsApp page language; the language you pick is remembered
 - One-time notice in the panel about privacy and WhatsApp terms
 - Store screenshots, promo tile and README screenshot; CI with tests, lint, build and tagged releases; version sync script

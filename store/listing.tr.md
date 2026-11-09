@@ -17,7 +17,7 @@ Nasıl çalışır:
 Özellikler:
 - Firefox ve Chrome'da çalışır
 - Türkçe ve İngilizce arayüz
-- Varsayılan ülke, CSV ayracı, kaydırma hızı, kopyalama biçimi ve ses ayarları
+- Varsayılan ülke, CSV ayracı, kaydırma hızı, kopyalama biçimi, ses ve animasyon ayarları
 - CSV, vCard ve JSON dışa aktarma, ülke ve rehberde kayıtlı olmayanlar filtreleri, birden fazla grubu birleştirme
 - E.164, yönetici ve grup sütunları, dosya adında grup adı
 - Büyük gruplar için Otomatik Kaydır, durum çubuğu ve ilerleme çubuğu

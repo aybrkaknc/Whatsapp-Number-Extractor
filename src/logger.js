@@ -1,6 +1,7 @@
 (() => {
   const WA = globalThis.WA ||= {};
   const PREFIX = '[WA-Extractor]';
+  const MAX_LINES = 300;
 
   // Kept so the log panel can be re-rendered when the language changes
   WA.logHistory = [];
@@ -24,12 +25,22 @@
     if (type === 'INFO') { color = '#4caf50'; icon = '[>]'; }
 
     const entry = { type, key, params, rawErr, color, icon, time };
-    WA.logHistory.push(entry);
-
     const panel = document.getElementById('wa-extractor-log-terminal');
+    WA.logHistory.push(entry);
+    // A long scan must not grow the log (and the page) without limit: the oldest line makes room
+    if (WA.logHistory.length > MAX_LINES) {
+      WA.logHistory.shift();
+      if (panel && panel.firstChild) panel.firstChild.remove();
+    }
+
     if (panel) {
-      panel.appendChild(WA.createLogLine(entry));
-      panel.scrollTop = panel.scrollHeight;
+      const line = WA.createLogLine(entry);
+      // Only live lines slide in; lines redrawn after a language switch do not
+      line.classList.add('wa-new');
+      panel.appendChild(line);
+      // Scrolling to the end forces a layout, so it is skipped while the log is closed
+      // (opening the log scrolls to the end by itself)
+      if (WA.state.isLogOpen) panel.scrollTop = panel.scrollHeight;
     }
   };
 

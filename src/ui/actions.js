@@ -31,8 +31,14 @@
     const status = document.getElementById('wa-extractor-status');
 
     const stopAutoScroll = () => {
-      clearInterval(state.autoScrollInterval);
-      state.autoScrollInterval = null;
+      if (state.autoScroller) state.autoScroller.stop();
+      state.autoScroller = null;
+    };
+
+    // Auto Scroll, Copy and Finish & DL enter in a short row, one step after the other
+    const showScanButtons = () => {
+      const step = WA.motion('--wa-dur-fast') / 2;
+      [autoBtn, copyBtn, stopBtn].forEach((btn, i) => WA.setHidden(btn, false, { delay: i * step }));
     };
 
     startBtn.onclick = () => {
@@ -48,10 +54,9 @@
 
       scrollArea.style.border = '2px dashed #25D366';
 
-      startBtn.classList.add('hide');
-      autoBtn.classList.remove('hide');
-      copyBtn.classList.remove('hide');
-      stopBtn.classList.remove('hide');
+      // The old button hides at once, the new group enters one button after the other
+      WA.setHidden(startBtn, true, { instant: true });
+      showScanButtons();
 
       autoBtn.innerText = t('btnAutoScroll');
       // A merged list spans several groups, so one group's participant count is no longer a total
@@ -59,17 +64,9 @@
       WA.setPhase('phaseScanning');
       WA.scanVisibleNumbers(scrollArea);
 
-      // A scroll fires many DOM mutations; rescan at most once per frame
+      // A scroll fires many DOM mutations; they share one scan that runs when the browser is idle
       if (state.observer) state.observer.disconnect();
-      let scanQueued = false;
-      state.observer = new MutationObserver(() => {
-        if (scanQueued) return;
-        scanQueued = true;
-        requestAnimationFrame(() => {
-          scanQueued = false;
-          WA.scanVisibleNumbers(scrollArea);
-        });
-      });
+      state.observer = new MutationObserver(() => WA.scheduleScan(scrollArea));
       state.observer.observe(scrollArea, { childList: true, subtree: true });
       Logger.info('logScanStart');
 
@@ -77,17 +74,18 @@
       if (state.modalCheckInterval) clearInterval(state.modalCheckInterval);
       state.modalCheckInterval = setInterval(() => {
         if (document.body.contains(scrollArea) && scrollArea.offsetHeight !== 0 && scrollArea.offsetWidth !== 0) return;
+        WA.flushScan();
         Logger.warn('logModalClosed');
         clearInterval(state.modalCheckInterval);
         state.modalCheckInterval = null;
         if (state.observer) state.observer.disconnect();
-        if (state.autoScrollInterval) {
+        if (state.autoScroller) {
           stopAutoScroll();
           autoBtn.innerText = t('btnScrollResume');
         }
         // Another group can be opened and scanned into the same list
-        startBtn.classList.remove('hide');
-        autoBtn.classList.add('hide');
+        WA.setHidden(autoBtn, true, { instant: true });
+        WA.setHidden(startBtn, false);
         WA.setPhase('phaseStopped');
         WA.renderStatus();
       }, 1000);
@@ -95,7 +93,7 @@
 
     autoBtn.onclick = () => {
       Logger.info('logAutoScrollClicked');
-      if (state.autoScrollInterval) {
+      if (state.autoScroller) {
         Logger.info('logAutoScrollPaused');
         stopAutoScroll();
         autoBtn.innerText = t('btnScrollResume');
@@ -105,37 +103,27 @@
 
       autoBtn.innerText = t('btnScrollStop');
       WA.setPhase('phaseScrolling');
-      let lastPos = -1;
-      let stuckCount = 0;
 
-      state.autoScrollInterval = setInterval(() => {
-        const scrollArea = WA.findActiveScrollContainer(true);
-        if (!scrollArea) {
+      // The list is scrolled continuously (src/autoscroll.js); these callbacks only report back
+      let lostLogged = false;
+      state.autoScroller = WA.startAutoScroll({
+        getArea: () => WA.findActiveScrollContainer(true),
+        scan: (area) => WA.scheduleScan(area),
+        onLost: () => {
+          // Logged once per loss, not on every look
+          if (lostLogged) return;
+          lostLogged = true;
           Logger.warn('errScrollNoList');
-          return;
+        },
+        onDone: () => {
+          WA.flushScan();
+          Logger.info('logScanDone');
+          state.autoScroller = null;
+          autoBtn.innerText = t('btnScrollDone');
+          WA.setPhase('phaseDone');
+          if (WA.settings.sound) playDoneSound();
         }
-
-        WA.scanVisibleNumbers(scrollArea);
-
-        // At the bottom (or blocked), wait a few ticks in case WhatsApp lazy-loads more rows
-        const atBottom = scrollArea.scrollTop + scrollArea.clientHeight >= scrollArea.scrollHeight - 2;
-        if (atBottom || scrollArea.scrollTop === lastPos) {
-          stuckCount++;
-          if (stuckCount > 2) {
-            Logger.info('logScanDone');
-            stopAutoScroll();
-            autoBtn.innerText = t('btnScrollDone');
-            WA.setPhase('phaseDone');
-            if (WA.settings.sound) playDoneSound();
-            return;
-          }
-        } else {
-          stuckCount = 0;
-        }
-        lastPos = scrollArea.scrollTop;
-        // Step by most of a screen so rows are not skipped in the virtualized list
-        if (!atBottom) scrollArea.scrollTop += Math.max(200, Math.floor(scrollArea.clientHeight * 0.8));
-      }, WA.SCROLL_INTERVALS[WA.settings.scrollSpeed] || WA.SCROLL_INTERVALS.normal);
+      });
     };
 
     copyBtn.onclick = () => {
@@ -168,6 +156,8 @@
       }
       if (state.observer) state.observer.disconnect();
       stopAutoScroll();
+      // A scan that is still waiting must finish before the list is read
+      WA.flushScan();
 
       const isEmpty = state.phones.size === 0;
       const phones = WA.filterPhones(state.phones);
@@ -206,10 +196,8 @@
       const scrollArea = WA.findActiveScrollContainer(true);
       if (scrollArea) scrollArea.style.border = 'none';
 
-      autoBtn.classList.add('hide');
-      copyBtn.classList.add('hide');
-      stopBtn.classList.add('hide');
-      startBtn.classList.remove('hide');
+      [autoBtn, copyBtn, stopBtn].forEach(btn => WA.setHidden(btn, true, { instant: true }));
+      WA.setHidden(startBtn, false);
       autoBtn.innerText = t('btnAutoScroll');
 
       state.phones.clear();

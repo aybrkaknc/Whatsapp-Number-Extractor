@@ -13,7 +13,8 @@
     // English until the user switches; the choice is then saved (settings.lang)
     lang: 'en',
     phones: new Map(),
-    autoScrollInterval: null,
+    // Running auto scroll controller from WA.startAutoScroll, null when stopped
+    autoScroller: null,
     observer: null,
     modalCheckInterval: null,
     isLogOpen: false,

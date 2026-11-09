@@ -64,6 +64,7 @@ WhatsApp Number Extractor, Firefox ve Chrome için bir eklentidir. WhatsApp Web 
 * Birden fazla grubu tek listede birleştirme (Grup sütunuyla)
 * İstenirse sayfa yenilenince listeyi koruma (sekme kapanınca silinir)
 * Numaraları panoya kopyalama
+* Tutarlı animasyonlar ([docs/ANIMATIONS.tr.md](docs/ANIMATIONS.tr.md)), ayarlardan değiştirilebilir
 * Sürüklenebilir panel ve anlık sistem logları
 * Türkçe ve İngilizce arayüz
 * Ayarlar (dişli): yerel numaraların ülkesi, CSV ayracı, kaydırma hızı, kopyalama biçimi ve ses, tarayıcıda saklanır

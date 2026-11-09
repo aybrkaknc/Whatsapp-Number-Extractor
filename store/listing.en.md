@@ -17,7 +17,7 @@ How it works:
 Features:
 - Works in Firefox and Chrome
 - Turkish and English interface
-- Settings for default country, CSV delimiter, scroll speed, copy format and sound
+- Settings for default country, CSV delimiter, scroll speed, copy format, sound and animations
 - CSV, vCard and JSON export, country and unsaved-contacts filters, merging several groups
 - E.164, admin and group columns, group name in the file name
 - Auto Scroll for large groups, status bar and progress bar

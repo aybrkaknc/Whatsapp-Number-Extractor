@@ -65,6 +65,7 @@ Features:
 * Merge several groups into one list (with a Group column)
 * Optionally keep the list when the page reloads (cleared when the tab closes)
 * Draggable panel and live system logs
+* Consistent animations (see [docs/ANIMATIONS.md](docs/ANIMATIONS.md)), switchable in the settings
 * Turkish and English interface
 * Settings (gear): country for local numbers, CSV delimiter, scroll speed, copy format and sound, saved in the browser
 

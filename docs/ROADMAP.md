@@ -25,6 +25,7 @@ Plan for version 1.3.x and later, based on a code and UI review of 1.3.0. Check 
 - [x] **L7** Reset timers and state when the panel is re-created.
 - [x] **L8** Pure functions (`detectCountry`, `csvCell`, name parsing) get unit tests with the built-in `node:test` (only when requested).
 - [x] **L9** Rename `feedback` identifiers to `help` (`logFeedbackOpen`, `wa-ext-btn-feedback`).
+- [x] **L10** Auto Scroll moves continuously, one small step per frame with an ease-in, instead of jumping a screen every interval (`src/autoscroll.js`).
 
 ## 3. Visual and interaction
 
@@ -37,6 +38,7 @@ Plan for version 1.3.x and later, based on a code and UI review of 1.3.0. Check 
 - [x] **V7** Respect `prefers-reduced-motion`.
 - [x] **V8** `aria-live="polite"` on the status box, Esc closes the panel.
 - [x] **V9** Limit panel width to 90vw on narrow screens.
+- [x] **V10** One animation system for the whole panel (see [ANIMATIONS.md](ANIMATIONS.md)), with an Animations setting.
 
 ## 4. Feature ideas
 

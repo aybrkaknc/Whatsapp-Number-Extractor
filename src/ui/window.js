@@ -19,18 +19,19 @@
 
     document.getElementById('wa-ext-notice-ok').onclick = () => {
       WA.saveSettings({ noticeSeen: true });
-      document.getElementById('wa-ext-notice').classList.add('hide');
+      WA.setHidden(document.getElementById('wa-ext-notice'), true);
     };
 
-    // Gear: switch between the main view and the settings view
+    // Gear: switch between the main view and the settings view.
+    // Settings slide in from the right, the main view comes back from the left.
     document.getElementById('wa-ext-btn-settings').onclick = () => {
       state.view = state.view === 'settings' ? 'main' : 'settings';
       state.minimized = false;
-      WA.renderMinimized();
+      WA.renderMinimized(state.view === 'settings' ? 'right' : 'left');
     };
     document.getElementById('wa-ext-set-ok').onclick = () => {
       state.view = 'main';
-      WA.renderMinimized();
+      WA.renderMinimized('left');
     };
 
     document.getElementById('wa-ext-set-help').onclick = () => {
@@ -55,6 +56,7 @@
     bindSetting('wa-ext-set-format', 'exportFormat', el => el.value);
     bindSetting('wa-ext-set-filter', 'exportCountry', el => el.value);
     bindSetting('wa-ext-set-unsaved', 'onlyUnsaved', el => el.checked);
+    bindSetting('wa-ext-set-motion', 'motion', el => el.value, WA.applyMotionMode);
     // Turning it off removes the kept list from the tab right away
     bindSetting('wa-ext-set-keep', 'keepOnReload', el => el.checked, WA.savePhones);
 
@@ -71,6 +73,7 @@
     titleBar.addEventListener('mousedown', (e) => {
       if (e.target.tagName === 'BUTTON') return;
       isDragging = true;
+      scopeWrapper.classList.add('wa-dragging');
       dragOffsetX = e.clientX - scopeWrapper.getBoundingClientRect().left;
       dragOffsetY = e.clientY - scopeWrapper.getBoundingClientRect().top;
       e.preventDefault();
@@ -98,29 +101,35 @@
 
     document.addEventListener('mouseup', () => {
       isDragging = false;
+      scopeWrapper.classList.remove('wa-dragging');
     }, { signal });
 
-    // Show / hide
+    // Show / hide: the window pops in and out, the WA button grows back once the window is gone
     let isVisible = false;
+    let closeTimer = null;
+    const finishClose = () => {
+      panel.classList.add('hide');
+      panel.classList.remove('win98-anim-out');
+      // Back to the bottom right corner
+      scopeWrapper.style.top = 'auto';
+      scopeWrapper.style.left = 'auto';
+      scopeWrapper.style.bottom = '15px';
+      scopeWrapper.style.right = '15px';
+      WA.setHidden(mainToggleBtn, false, { enter: 'wa-grow' });
+    };
     const toggleWindow = () => {
       isVisible = !isVisible;
+      // A pending close must not hide a window that was opened again in the meantime
+      clearTimeout(closeTimer);
       if (isVisible) {
-        panel.classList.remove('hide');
-        panel.classList.add('win98-anim');
-        mainToggleBtn.classList.add('hide');
-        setTimeout(() => panel.classList.remove('win98-anim'), 200);
-      } else {
+        panel.classList.remove('hide', 'win98-anim-out');
+        WA.replay(panel, 'win98-anim');
+        WA.setHidden(mainToggleBtn, true, { instant: true });
+      } else if (WA.motionAllowed()) {
         panel.classList.add('win98-anim-out');
-        // Wait for the 150ms animation, then hide and reset to the bottom right corner
-        setTimeout(() => {
-          panel.classList.add('hide');
-          panel.classList.remove('win98-anim-out');
-          scopeWrapper.style.top = 'auto';
-          scopeWrapper.style.left = 'auto';
-          scopeWrapper.style.bottom = '15px';
-          scopeWrapper.style.right = '15px';
-          mainToggleBtn.classList.remove('hide');
-        }, 150);
+        closeTimer = setTimeout(finishClose, WA.motion('--wa-dur'));
+      } else {
+        finishClose();
       }
     };
 
@@ -135,30 +144,27 @@
       mainToggleBtn.focus();
     });
 
+    // Minimize collapses the content upward and restores it the same way
     document.getElementById('wa-ext-btn-minimize').onclick = () => {
       state.minimized = !state.minimized;
-      WA.renderMinimized();
+      WA.renderMinimized('up');
     };
 
-    // Log panel
+    // Log panel: slides open in steps (the size transition is in panel.css), the Clear button follows
     toggleLogBtn.onclick = () => {
       state.isLogOpen = !state.isLogOpen;
       if (state.isLogOpen) {
         logContainer.style.maxHeight = '120px';
         logContainer.style.opacity = '1';
         logContainer.style.marginTop = '6px';
-        clearLogBtn.classList.remove('hide');
-        clearLogBtn.style.opacity = '1';
+        WA.setHidden(clearLogBtn, false, { delay: WA.motion('--wa-dur-fast') });
         toggleLogBtn.innerText = t('btnSysLogsClose');
-        setTimeout(() => logContainer.scrollTop = logContainer.scrollHeight, 150);
+        setTimeout(() => logContainer.scrollTop = logContainer.scrollHeight, WA.motion('--wa-dur-slow'));
       } else {
         logContainer.style.maxHeight = '0';
         logContainer.style.opacity = '0';
         logContainer.style.marginTop = '0';
-        clearLogBtn.style.opacity = '0';
-        setTimeout(() => {
-          if (!state.isLogOpen) clearLogBtn.classList.add('hide');
-        }, 300);
+        WA.setHidden(clearLogBtn, true);
         toggleLogBtn.innerText = t('btnSysLogs');
       }
     };

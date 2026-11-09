@@ -10,5 +10,7 @@
       WA.Logger.info('logRestored', restored);
     }
     setInterval(WA.createUI, 2000);
+    // A save still waiting for its delay must not be lost when the page reloads or closes
+    window.addEventListener('pagehide', () => WA.savePhones());
   });
 })();

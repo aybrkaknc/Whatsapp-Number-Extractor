@@ -128,16 +128,48 @@
           group
         });
         newFound++;
-        WA.renderStatus();
       });
 
       if (newFound > 0) {
+        // One status update, log line and (delayed) save per batch, not per number
+        WA.renderStatus();
         Logger.info('logScanSuccess', newFound, phones.size);
-        WA.savePhones();
+        WA.savePhonesSoon();
       }
     } catch (err) {
       Logger.error('errScanFail', err);
       WA.showNotice('errScanFail', 'error');
     }
+  };
+
+  // Scans when the browser is idle instead of inside the frame that is scrolling the list, so reading
+  // the rows never makes a scroll frame late. Requests made while one is waiting share that scan.
+  let pendingArea = null;
+  let pendingHandle = null;
+  let pendingIsIdle = false;
+
+  const runPending = () => {
+    const area = pendingArea;
+    pendingArea = null;
+    pendingHandle = null;
+    if (area) WA.scanVisibleNumbers(area);
+  };
+
+  WA.scheduleScan = (container) => {
+    pendingArea = container;
+    if (pendingHandle !== null) return;
+    pendingIsIdle = typeof globalThis.requestIdleCallback === 'function';
+    // The timeout keeps a busy page from postponing the scan for long
+    pendingHandle = pendingIsIdle
+      ? requestIdleCallback(runPending, { timeout: 400 })
+      : setTimeout(runPending, 50);
+  };
+
+  // Runs a waiting scan right now; used before the result is read (Finish, end of the list)
+  WA.flushScan = () => {
+    if (pendingHandle === null) return;
+    if (pendingIsIdle) cancelIdleCallback(pendingHandle);
+    else clearTimeout(pendingHandle);
+    runPending();
   };
 })();

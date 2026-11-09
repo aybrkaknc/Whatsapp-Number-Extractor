@@ -20,10 +20,11 @@
     // Keep collected numbers in the tab's sessionStorage across page reloads
     keepOnReload: false,
     // The one-time privacy and terms notice was dismissed
-    noticeSeen: false
+    noticeSeen: false,
+    // Animations: 'system' (follow the OS reduced motion setting), 'on' or 'off'
+    motion: 'system'
   };
 
-  WA.SCROLL_INTERVALS = { slow: 1200, normal: 800, fast: 500 };
   WA.settings = { ...DEFAULTS };
 
   // Firefox exposes promise-based `browser`, Chrome MV3 `chrome` returns promises too

@@ -13,6 +13,11 @@
 - Dişlinin açtığı, yeni "storage" izniyle saklanan ayarlar penceresi: dil, yerel numaraların ülkesi, CSV ayracı, kaydırma hızı, kopyalama biçimi ve ses
 - vCard (.vcf) veya JSON olarak dışa aktarma; dışa aktarma ve kopyalama için filtreler: bir ülke ve/veya yalnızca rehberinizde kayıtlı olmayanlar
 - "Başka grup tara" ile birden fazla grubu tek listede birleştirme, yeni Grup sütunu
+- Otomatik Kaydır yeni satırlar yüklenirken de akıcı kalıyor: tarama tarayıcı boştayken çalışıyor, durum kutusu, log ve kayıtlı liste numara başına değil parti başına bir kez güncelleniyor, log son 300 satırı tutuyor
+- Otomatik Kaydır listeyi artık bir ekran sıçramak yerine sürekli ve yumuşak başlayarak kaydırıyor. Hız ayarı saniyedeki liste yüksekliği cinsinden (yavaş 0,4, normal 0,7, hızlı 1,2)
+- Otomatik Kaydır listeyi artık bir ekran sıçramak yerine sürekli ve yumuşak başlayarak kaydırıyor. Hız ayarı saniyedeki liste yüksekliği cinsinden (yavaş 0,4, normal 0,7, hızlı 1,2)
+- Tüm panel için tek bir animasyon sistemi: ortak süreler ve adımlı geçişler, kayarak giren görünümler, küçült, kademeli butonlar, adımlarla dolan ilerleme çubuğu, parlayan durum kutusu, kayarak giren bildirimler ve log satırları; yeni Animasyonlar ayarı (sistemi izle, her zaman açık, kapalı). Bkz. docs/ANIMATIONS.tr.md
+- Düzeltildi: paneli kapatıp hemen tekrar açmak onu yeniden gizleyebiliyordu
 - Panel artık WhatsApp sayfasının diline uymak yerine İngilizce başlıyor; seçtiğiniz dil hatırlanıyor
 - Panelde gizlilik ve WhatsApp şartları hakkında tek seferlik bilgi notu
 - Mağaza ekran görüntüleri, tanıtım kutusu ve README ekran görüntüsü; testler, lint, derleme ve etiketli sürümler için CI; sürüm senkron betiği

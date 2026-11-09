@@ -69,17 +69,36 @@
 #wa-extractor-window .title-bar { cursor: move; }
 #wa-extractor-window .title-bar button { cursor: pointer; }
 
+/* ---- Motion system ----
+   One set of durations and easings drives every animation of the panel, so they all feel alike:
+     --wa-dur-fast  micro feedback (status flash, new log line)
+     --wa-dur       window and view transitions, elements entering and leaving
+     --wa-dur-slow  size changes (log panel, progress bar)
+   Step easings keep the Windows 98 look: things move in a few visible steps instead of gliding.
+   The reduced motion rule at the end of this file turns the whole system off.
+   Scripts read the same tokens (src/ui/motion.js), so timing is defined only here. */
+#wa-98-scope {
+  --wa-dur-fast: 100ms;
+  --wa-dur: 160ms;
+  --wa-dur-slow: 240ms;
+  --wa-ease: steps(5, end);
+  --wa-ease-fade: steps(3, end);
+  --wa-ease-grow: steps(8, end);
+}
+
+/* Size changes */
 #wa-extractor-log-terminal {
-  transition: max-height 0.2s steps(6), opacity 0.2s steps(2), margin-top 0.2s steps(6);
+  transition: max-height var(--wa-dur-slow) var(--wa-ease-grow), opacity var(--wa-dur) var(--wa-ease-fade), margin-top var(--wa-dur-slow) var(--wa-ease-grow);
   max-height: 0;
   opacity: 0;
   margin-top: 0 !important;
   overflow: hidden;
 }
-#wa-extractor-log-clear {
-  transition: opacity 0.2s steps(2);
-  opacity: 0;
+#wa-98-scope #wa-ext-progress-bar {
+  transition: width var(--wa-dur-slow) var(--wa-ease-grow);
 }
+
+/* Window: opens and closes with a small pop, dims slightly while it is being dragged */
 @keyframes win98-appear {
   0% { transform: scale(0.95); opacity: 0; }
   50% { transform: scale(1.02); opacity: 0.8; }
@@ -90,11 +109,65 @@
   50% { transform: scale(1.02); opacity: 0.8; }
   100% { transform: scale(0.95); opacity: 0; }
 }
-.win98-anim {
-  animation: win98-appear 0.15s steps(4) forwards;
+#wa-98-scope .win98-anim {
+  animation: win98-appear var(--wa-dur) var(--wa-ease) forwards;
 }
-.win98-anim-out {
-  animation: win98-disappear 0.15s steps(4) forwards;
+#wa-98-scope .win98-anim-out {
+  animation: win98-disappear var(--wa-dur) var(--wa-ease) forwards;
+}
+#wa-98-scope #wa-extractor-window {
+  transition: opacity var(--wa-dur-fast) var(--wa-ease-fade);
+}
+#wa-98-scope.wa-dragging #wa-extractor-window {
+  opacity: 0.88;
+}
+
+/* Elements appearing and disappearing (views, buttons, notes, progress bar).
+   --wa-dx / --wa-dy are set per element by WA.setHidden() to choose the direction. */
+@keyframes wa-enter {
+  from { opacity: 0; transform: translate(var(--wa-dx, 0px), var(--wa-dy, 6px)); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes wa-leave {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translate(0, var(--wa-dy, 6px)); }
+}
+@keyframes wa-grow {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+#wa-98-scope .wa-enter {
+  animation: wa-enter var(--wa-dur) var(--wa-ease) both;
+}
+#wa-98-scope .wa-leave {
+  animation: wa-leave var(--wa-dur) var(--wa-ease) both;
+  pointer-events: none;
+}
+#wa-98-scope .wa-grow {
+  animation: wa-grow var(--wa-dur) var(--wa-ease) both;
+}
+
+/* Feedback: the status box flashes when its numbers change, notices slide in, new log lines slide in */
+@keyframes wa-tick {
+  from { filter: brightness(1.9); }
+  to { filter: none; }
+}
+@keyframes wa-pop {
+  from { opacity: 0.3; transform: translateX(-8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes wa-line {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: none; }
+}
+#wa-98-scope .wa-tick {
+  animation: wa-tick var(--wa-dur) var(--wa-ease-fade);
+}
+#wa-98-scope .wa-pop {
+  animation: wa-pop var(--wa-dur) var(--wa-ease) both;
+}
+#wa-98-scope .log-line.wa-new {
+  animation: wa-line var(--wa-dur-fast) var(--wa-ease-fade) both;
 }
 
 /* The panel-wide black text rule would otherwise hide the disabled look */
@@ -137,6 +210,17 @@
 #wa-98-scope #wa-ext-settings select {
   width: 100%;
 }
+/* Open dropdowns: keep the text readable on the selected row, which Windows paints in the system highlight colour */
+#wa-98-scope select,
+#wa-98-scope select option {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+#wa-98-scope select option:checked,
+#wa-98-scope select option:hover {
+  background-color: #000080 !important;
+  color: #fff !important;
+}
 /* The panel grows upward from the bottom corner; scroll instead of pushing the title bar off screen */
 #wa-98-scope #wa-ext-settings {
   max-height: 70vh;
@@ -149,14 +233,28 @@
   margin-top: 8px;
 }
 
-/* OS "reduce motion" setting: no window or log panel animations */
+/* No animations at all when the OS asks for reduced motion, or when the "Animations: off" setting
+   is chosen (data-motion="off"). "Animations: always on" (data-motion="on") overrides the OS setting.
+   The duration tokens drop to 0 so scripts do not wait for animations that are not running. */
 @media (prefers-reduced-motion: reduce) {
-  .win98-anim,
-  .win98-anim-out {
-    animation: none !important;
+  #wa-98-scope:not([data-motion="on"]) {
+    --wa-dur-fast: 0ms;
+    --wa-dur: 0ms;
+    --wa-dur-slow: 0ms;
   }
-  #wa-extractor-log-terminal,
-  #wa-extractor-log-clear {
+  #wa-98-scope:not([data-motion="on"]),
+  #wa-98-scope:not([data-motion="on"]) * {
+    animation: none !important;
     transition: none !important;
   }
+}
+#wa-98-scope[data-motion="off"] {
+  --wa-dur-fast: 0ms;
+  --wa-dur: 0ms;
+  --wa-dur-slow: 0ms;
+}
+#wa-98-scope[data-motion="off"],
+#wa-98-scope[data-motion="off"] * {
+  animation: none !important;
+  transition: none !important;
 }

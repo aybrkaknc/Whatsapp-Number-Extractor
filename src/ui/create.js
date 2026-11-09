@@ -8,10 +8,10 @@
     // WhatsApp may have removed a panel mid-scan; stop timers that point at the old buttons.
     // Collected numbers are kept and still shown in the status box.
     const { state } = WA;
-    clearInterval(state.autoScrollInterval);
+    if (state.autoScroller) state.autoScroller.stop();
     clearInterval(state.modalCheckInterval);
     if (state.observer) state.observer.disconnect();
-    state.autoScrollInterval = null;
+    state.autoScroller = null;
     state.modalCheckInterval = null;
     state.observer = null;
     state.phase = state.phones.size > 0 ? 'phaseStopped' : 'phaseReady';
@@ -34,6 +34,7 @@
     const doc = new DOMParser().parseFromString(WA.UI_TEMPLATE, 'text/html');
     scopeWrapper.append(...doc.body.childNodes);
     document.body.appendChild(scopeWrapper);
+    WA.applyMotionMode();
 
     WA.updateUITexts();
     WA.bindWindow(scopeWrapper);
@@ -41,8 +42,8 @@
 
     // A restored or kept list can be copied and downloaded right away
     if (state.phones.size > 0) {
-      document.getElementById('wa-ext-btn-copy').classList.remove('hide');
-      document.getElementById('wa-ext-btn-stop').classList.remove('hide');
+      WA.setHidden(document.getElementById('wa-ext-btn-copy'), false, { instant: true });
+      WA.setHidden(document.getElementById('wa-ext-btn-stop'), false, { instant: true });
     }
   };
 })();
