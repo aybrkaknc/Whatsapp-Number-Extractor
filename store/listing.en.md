@@ -15,6 +15,7 @@ How it works:
 Features:
 - Works in Firefox and Chrome
 - Turkish and English interface
+- Settings for default country, CSV delimiter, scroll speed, copy format and sound
 - Auto Scroll for large groups
 - Excel-compatible CSV (semicolon separator, UTF-8 with BOM)
 - Protection against spreadsheet formula injection in exported values

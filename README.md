@@ -61,6 +61,7 @@ Features:
 * Copy numbers to the clipboard
 * Draggable panel and live system logs
 * Turkish and English interface
+* Settings (gear): country for local numbers, CSV delimiter, scroll speed, copy format and sound, saved in the browser
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

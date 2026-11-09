@@ -8,14 +8,14 @@
         <div class="title-bar-text">WA Extractor</div>
         <div class="title-bar-controls">
           <button id="wa-ext-btn-lang"></button>
-          <button id="wa-ext-btn-help"></button>
+          <button id="wa-ext-btn-settings"></button>
           <button id="wa-ext-btn-github"></button>
           <button id="wa-ext-btn-minimize" class="minimize"></button>
           <button id="wa-ext-btn-close" class="close"></button>
         </div>
       </div>
 
-      <div class="window-body">
+      <div id="wa-ext-main" class="window-body">
         <fieldset class="wa-ext-col">
           <legend id="wa-ext-label-actions"></legend>
           <button id="wa-ext-btn-start"></button>
@@ -40,6 +40,46 @@
         <div id="wa-extractor-log-terminal" class="sunken-panel" style="padding: 6px; overflow-y: auto; background: black; color: #00ff00; font-family: 'Fixedsys', 'Courier New', monospace; font-size: 12px;"></div>
 
         <button id="wa-extractor-log-clear" class="hide" style="width: 100%; margin-top: 4px;"></button>
+      </div>
+
+      <div id="wa-ext-settings" class="window-body hide">
+        <fieldset class="wa-ext-col">
+          <legend id="wa-ext-set-legend"></legend>
+          <div class="field-row-stacked">
+            <label for="wa-ext-set-country" id="wa-ext-set-country-label"></label>
+            <select id="wa-ext-set-country"></select>
+          </div>
+          <div class="field-row-stacked">
+            <label for="wa-ext-set-delimiter" id="wa-ext-set-delimiter-label"></label>
+            <select id="wa-ext-set-delimiter">
+              <option value=";"></option>
+              <option value=","></option>
+            </select>
+          </div>
+          <div class="field-row-stacked">
+            <label for="wa-ext-set-speed" id="wa-ext-set-speed-label"></label>
+            <select id="wa-ext-set-speed">
+              <option value="slow"></option>
+              <option value="normal"></option>
+              <option value="fast"></option>
+            </select>
+          </div>
+          <div class="field-row-stacked">
+            <label for="wa-ext-set-copy" id="wa-ext-set-copy-label"></label>
+            <select id="wa-ext-set-copy">
+              <option value="lines"></option>
+              <option value="comma"></option>
+            </select>
+          </div>
+          <div class="field-row">
+            <input type="checkbox" id="wa-ext-set-sound">
+            <label for="wa-ext-set-sound" id="wa-ext-set-sound-label"></label>
+          </div>
+        </fieldset>
+        <div class="wa-ext-set-buttons">
+          <button id="wa-ext-set-help"></button>
+          <button id="wa-ext-set-ok"></button>
+        </div>
       </div>
 
       <div class="status-bar">

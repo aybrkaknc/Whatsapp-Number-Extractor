@@ -45,11 +45,20 @@
       return first.length > 0 && first.length <= 4 ? { dial: first, region: null } : null;
     }
 
-    // Local format such as 05..., assumed to be Turkish
-    if (text.startsWith('0')) return { dial: '90', region: 'TR' };
+    // Local format such as 05...: use the country chosen in the settings (Turkey by default)
+    if (text.startsWith('0')) {
+      const dial = (WA.settings && WA.settings.defaultDial) || '90';
+      return { dial, region: DIAL_CODES[dial] || null };
+    }
 
     return null;
   };
+
+  // Countries with a unique calling code, sorted by their name in the UI language
+  WA.countryOptions = () => Object.entries(DIAL_CODES)
+    .filter(([, region]) => region)
+    .map(([dial, region]) => ({ dial, label: WA.formatCountry({ dial, region }) }))
+    .sort((a, b) => a.label.localeCompare(b.label, WA.state.lang));
 
   // Formats the detected country in the current UI language, e.g. "Türkiye (+90)"
   WA.formatCountry = (country) => {
@@ -60,5 +69,26 @@
       name = new Intl.DisplayNames([WA.state.lang], { type: 'region' }).of(country.region) || name;
     } catch (e) {}
     return `${name} (+${country.dial})`;
+  };
+
+  // E.164 form such as +905321112233; '' when the number carries no country information
+  WA.toE164 = (phone, country) => {
+    const digits = phone.replace(/\D/g, '');
+    if (phone.trim().startsWith('+')) return '+' + digits;
+    if (country && digits.startsWith('0')) return `+${country.dial}${digits.slice(1)}`;
+    return '';
+  };
+
+  // "Türkiye (+90): 2, Almanya (+49): 1", most frequent first
+  WA.countrySummary = (phones) => {
+    const counts = new Map();
+    for (const { country } of phones.values()) {
+      const label = WA.formatCountry(country);
+      counts.set(label, (counts.get(label) || 0) + 1);
+    }
+    return Array.from(counts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([label, n]) => `${label}: ${n}`)
+      .join(', ');
   };
 })();

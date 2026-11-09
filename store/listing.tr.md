@@ -15,6 +15,7 @@ Nasıl çalışır:
 Özellikler:
 - Firefox ve Chrome'da çalışır
 - Türkçe ve İngilizce arayüz
+- Varsayılan ülke, CSV ayracı, kaydırma hızı, kopyalama biçimi ve ses ayarları
 - Büyük gruplar için Otomatik Kaydır
 - Excel uyumlu CSV (noktalı virgül ayraç, BOM'lu UTF-8)
 - Dışa aktarılan değerlerde tablo formülü enjeksiyonuna karşı koruma

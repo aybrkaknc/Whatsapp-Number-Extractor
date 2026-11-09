@@ -11,7 +11,7 @@
 - [x] **B3** `alert()` sayfayı kilitliyor ve retro hissi bozuyor. Düzeltme: durum kutusunda satır içi mesajlar (`src/ui/actions.js`).
 - [x] **B4** Her bitişte yeni bir `AudioContext` açılıyor ve kapatılmıyor. Düzeltme: kapatmak veya tek bağlam kullanmak (`src/ui/actions.js`).
 - [x] **B5** Yalnızca simgeli butonlarda (dişli, GitHub, kapat) tooltip yok. Düzeltme: `updateUITexts` içinde dile göre `title` (`src/ui/texts.js`).
-- [ ] **B6** Dişli simgesi yardım sayfasını açıyor, oysa ayar çağrıştırıyor. Düzeltme: bkz. F1.
+- [x] **B6** Dişli simgesi yardım sayfasını açıyor, oysa ayar çağrıştırıyor. Düzeltme: bkz. F1.
 - [x] **B7** `web_accessible_resources` tüm `*.whatsapp.com` için açık, içerik betiği ise yalnızca `web.whatsapp.com` üzerinde çalışıyor. Düzeltme: `https://web.whatsapp.com/*` ile daraltmak (`manifest.json`).
 
 ## 2. Kod mantığı ve dayanıklılık
@@ -20,7 +20,7 @@
 - [x] **L2** `MutationObserver` yeniden taramalarını `requestAnimationFrame` ile birleştirmek.
 - [x] **L3** Numaraları yalnızca rakamlara göre tekilleştirmek: `+90 532 111 22 33` ve `+905321112233` bir kez sayılsın.
 - [x] **L4** Otomatik kaydırma: `clientHeight` kadar adım ve beş kez aynı yerde beklemek yerine `scrollTop + clientHeight >= scrollHeight` kontrolü.
-- [ ] **L5** 0 ile başlayan yerel numaralar için varsayılan ülke ayarı (şu an her zaman Türkiye).
+- [x] **L5** 0 ile başlayan yerel numaralar için varsayılan ülke ayarı (şu an her zaman Türkiye).
 - [x] **L6** Uyarı ve hata seviyelerini ayırmak, kritik olmayan durumlar durum kutusunu kırmızı yapmasın.
 - [x] **L7** Panel yeniden kurulduğunda zamanlayıcıları ve durumu sıfırlamak.
 - [x] **L8** Saf fonksiyonlar (`detectCountry`, `csvCell`, isim ayrıştırma) için yerleşik `node:test` ile birim testler (yalnızca istenirse).
@@ -33,25 +33,25 @@
 - [x] **V3** İlerleme çubuğu (98.css `progress-indicator`), modal başlığındaki katılımcı sayısından.
 - [x] **V4** Paneli başlık çubuğuna indiren küçült butonu.
 - [x] **V5** Numara yokken Kopyala ve Bitir'i pasif yapmak, `alert` yerine.
-- [ ] **V6** Bitiş sesi için kapatma seçeneği.
+- [x] **V6** Bitiş sesi için kapatma seçeneği.
 - [x] **V7** `prefers-reduced-motion` ayarına uymak.
 - [x] **V8** Durum kutusunda `aria-live="polite"`, Esc ile paneli kapatmak.
 - [x] **V9** Dar ekranlarda panel genişliğini 90vw ile sınırlamak.
 
 ## 4. Özellik önerileri
 
-| Kod | Özellik | Değer | Emek |
-|---|---|---|---|
-| F1 | Dişlinin açtığı gerçek ayarlar penceresi: kalıcı dil, varsayılan ülke, CSV ayracı, ses, kaydırma hızı. İçinde yardım bağlantısı. | Yüksek | Orta |
-| F2 | CRM ve içe aktarma için E.164 sütunu (`+905321112233`). | Yüksek | Düşük |
-| F3 | Dosya adında grup adı (`wa_<grup>_<tarih>.csv`). | Orta | Düşük |
-| F4 | vCard (.vcf) ve JSON dışa aktarma. | Orta | Orta |
-| F5 | Yönetici sütunu (admin etiketi şu an yalnızca atlanıyor). | Orta | Düşük |
-| F6 | Aynı oturumda birden fazla grubu birleştirip mükerrerleri atmak. | Yüksek | Orta |
-| F7 | Filtreler: yalnızca rehberde kayıtlı olmayanlar, seçili ülkeler. | Orta | Orta |
-| F8 | İndirmeden önce ülke özeti ("Almanya: 12"). | Düşük | Düşük |
-| F9 | Sayfa yenilenince toplanan listeyi korumak (yalnızca `sessionStorage`). | Düşük | Orta |
-| F10 | Kopyalama biçimi seçimi: satır satır veya virgülle ayrılmış. | Düşük | Düşük |
+| Kod | Özellik | Değer | Emek | Durum |
+|---|---|---|---|---|
+| F1 | Dişlinin açtığı gerçek ayarlar penceresi: kalıcı dil, varsayılan ülke, CSV ayracı, ses, kaydırma hızı. İçinde yardım bağlantısı. | Yüksek | Orta | Yapıldı |
+| F2 | CRM ve içe aktarma için E.164 sütunu (`+905321112233`). | Yüksek | Düşük | Yapıldı |
+| F3 | Dosya adında grup adı (`wa_<grup>_<tarih>.csv`). | Orta | Düşük | Yapıldı |
+| F4 | vCard (.vcf) ve JSON dışa aktarma. | Orta | Orta | Açık |
+| F5 | Yönetici sütunu (admin etiketi şu an yalnızca atlanıyor). | Orta | Düşük | Yapıldı |
+| F6 | Aynı oturumda birden fazla grubu birleştirip mükerrerleri atmak. | Yüksek | Orta | Açık |
+| F7 | Filtreler: yalnızca rehberde kayıtlı olmayanlar, seçili ülkeler. | Orta | Orta | Açık |
+| F8 | İndirmeden önce ülke özeti ("Almanya: 12"). | Düşük | Düşük | Yapıldı |
+| F9 | Sayfa yenilenince toplanan listeyi korumak (yalnızca `sessionStorage`). | Düşük | Orta | Açık |
+| F10 | Kopyalama biçimi seçimi: satır satır veya virgülle ayrılmış. | Düşük | Düşük | Yapıldı |
 
 ## 5. Yayın, güvenlik ve süreç
 

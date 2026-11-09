@@ -53,7 +53,7 @@
   justify-content: center !important;
   background-position: center !important;
 }
-#wa-ext-btn-help {
+#wa-ext-btn-settings {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABfSURBVDhPrY/BCgAgCEP3/z9tdAh0aip1mOFyT4SIIBOAXYR9M8MGhytIGOr2BsAbK/0HTCDuhGNmQ9Gfev2GCkByxgzwfEI2dJPJTMMM+QfQkG7vABEsCrUAGsK+1gL0EfYY4fgO5AAAAABJRU5ErkJggg==') !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
@@ -115,6 +115,16 @@
 #wa-98-scope .status-bar-field {
   font-size: 11px !important;
   white-space: nowrap;
+}
+
+#wa-98-scope #wa-ext-settings select {
+  width: 100%;
+}
+#wa-98-scope .wa-ext-set-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 8px;
 }
 
 /* OS "reduce motion" setting: no window or log panel animations */

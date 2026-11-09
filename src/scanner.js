@@ -83,6 +83,14 @@
     return name;
   };
 
+  WA.hasAdminTag = (labels) => labels.some(label => ADMIN_TAGS.includes(label.trim()));
+
+  // Name of the open chat (the group) from the conversation header; '' when not found
+  WA.findGroupName = () => {
+    const el = document.querySelector('#main header span[dir="auto"]');
+    return el ? el.textContent.trim() : '';
+  };
+
   WA.scanVisibleNumbers = (container) => {
     if (!container) return;
     const phones = WA.state.phones;
@@ -97,9 +105,14 @@
         if (phones.has(key)) return;
 
         const row = span.closest('div[role="listitem"]') || span.parentElement.closest('div[style*="height"]') || span.closest('div');
-        const name = row ? WA.pickName(Array.from(row.querySelectorAll('span[dir="auto"], span[title]'), el => el.textContent), text) : '';
+        const labels = row ? Array.from(row.querySelectorAll('span[dir="auto"], span[title]'), el => el.textContent) : [];
 
-        phones.set(key, { country: WA.detectCountry(text), name, phone: text });
+        phones.set(key, {
+          country: WA.detectCountry(text),
+          name: WA.pickName(labels, text),
+          phone: text,
+          isAdmin: WA.hasAdminTag(labels)
+        });
         newFound++;
         WA.renderStatus();
       });

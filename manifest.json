@@ -11,6 +11,9 @@
     "96": "icon/icon-96.png",
     "128": "icon/icon-128.png"
   },
+  "permissions": [
+    "storage"
+  ],
   "content_scripts": [
     {
       "matches": [
@@ -25,6 +28,7 @@
         "src/i18n/tr.js",
         "src/i18n/en.js",
         "src/i18n/i18n.js",
+        "src/settings.js",
         "src/country.js",
         "src/logger.js",
         "src/scanner.js",

@@ -11,7 +11,7 @@ Plan for version 1.3.x and later, based on a code and UI review of 1.3.0. Check 
 - [x] **B3** `alert()` blocks the page and breaks the retro feel. Fix: inline messages in the status box (`src/ui/actions.js`).
 - [x] **B4** A new `AudioContext` is created for every completion and never closed. Fix: close it or reuse one (`src/ui/actions.js`).
 - [x] **B5** Icon-only buttons (gear, GitHub, close) have no tooltip. Fix: set `title` per language in `updateUITexts` (`src/ui/texts.js`).
-- [ ] **B6** The gear icon opens the help page, which suggests settings. Fix: see F1.
+- [x] **B6** The gear icon opens the help page, which suggests settings. Fix: see F1.
 - [x] **B7** `web_accessible_resources` matches all of `*.whatsapp.com`, but the content script only runs on `web.whatsapp.com`. Fix: narrow to `https://web.whatsapp.com/*` (`manifest.json`).
 
 ## 2. Code logic and robustness
@@ -20,7 +20,7 @@ Plan for version 1.3.x and later, based on a code and UI review of 1.3.0. Check 
 - [x] **L2** Batch the `MutationObserver` rescans with `requestAnimationFrame`.
 - [x] **L3** Deduplicate numbers by digits only, so `+90 532 111 22 33` and `+905321112233` count once.
 - [x] **L4** Auto scroll: step by `clientHeight` and stop when `scrollTop + clientHeight >= scrollHeight` instead of waiting five stuck ticks.
-- [ ] **L5** Add a default country setting for local numbers that start with 0 (currently always Turkey).
+- [x] **L5** Add a default country setting for local numbers that start with 0 (currently always Turkey).
 - [x] **L6** Separate warning and error levels, so non-critical cases do not turn the status box red.
 - [x] **L7** Reset timers and state when the panel is re-created.
 - [x] **L8** Pure functions (`detectCountry`, `csvCell`, name parsing) get unit tests with the built-in `node:test` (only when requested).
@@ -33,25 +33,25 @@ Plan for version 1.3.x and later, based on a code and UI review of 1.3.0. Check 
 - [x] **V3** Progress bar (98.css `progress-indicator`) from the participant count in the modal title.
 - [x] **V4** Minimize button that collapses the panel to its title bar.
 - [x] **V5** Disable Copy and Finish while there are no numbers, instead of an alert.
-- [ ] **V6** Mute option for the completion sound.
+- [x] **V6** Mute option for the completion sound.
 - [x] **V7** Respect `prefers-reduced-motion`.
 - [x] **V8** `aria-live="polite"` on the status box, Esc closes the panel.
 - [x] **V9** Limit panel width to 90vw on narrow screens.
 
 ## 4. Feature ideas
 
-| ID | Feature | Value | Effort |
-|---|---|---|---|
-| F1 | Real settings window behind the gear: remembered language, default country, CSV delimiter, sound, scroll speed. Help link inside. | High | Medium |
-| F2 | E.164 column (`+905321112233`) for CRM and imports. | High | Low |
-| F3 | Group name in the file name (`wa_<group>_<date>.csv`). | Medium | Low |
-| F4 | vCard (.vcf) and JSON export. | Medium | Medium |
-| F5 | Admin column (admin tags are skipped today). | Medium | Low |
-| F6 | Merge several groups in one session and drop duplicates. | High | Medium |
-| F7 | Filters: only unsaved contacts, selected countries. | Medium | Medium |
-| F8 | Country summary before download ("Germany: 12"). | Low | Low |
-| F9 | Keep the collected list across a page reload (`sessionStorage` only). | Low | Medium |
-| F10 | Copy format choice: one per line or comma separated. | Low | Low |
+| ID | Feature | Value | Effort | Status |
+|---|---|---|---|---|
+| F1 | Real settings window behind the gear: remembered language, default country, CSV delimiter, sound, scroll speed. Help link inside. | High | Medium | Done |
+| F2 | E.164 column (`+905321112233`) for CRM and imports. | High | Low | Done |
+| F3 | Group name in the file name (`wa_<group>_<date>.csv`). | Medium | Low | Done |
+| F4 | vCard (.vcf) and JSON export. | Medium | Medium | Open |
+| F5 | Admin column (admin tags are skipped today). | Medium | Low | Done |
+| F6 | Merge several groups in one session and drop duplicates. | High | Medium | Open |
+| F7 | Filters: only unsaved contacts, selected countries. | Medium | Medium | Open |
+| F8 | Country summary before download ("Germany: 12"). | Low | Low | Done |
+| F9 | Keep the collected list across a page reload (`sessionStorage` only). | Low | Medium | Open |
+| F10 | Copy format choice: one per line or comma separated. | Low | Low | Done |
 
 ## 5. Release, security and process
 

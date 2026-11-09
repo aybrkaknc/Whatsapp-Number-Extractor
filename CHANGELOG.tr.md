@@ -10,6 +10,8 @@
 - Yardım butonu dişli ikonu kullanıyor, Telegram butonu depoyu açan GitHub butonuyla değiştirildi
 - Tarama aşamasını ve toplanan / toplam sayısını gösteren durum çubuğu, WhatsApp katılımcı sayısını gösterdiğinde ilerleme çubuğu
 - Küçült butonu, Esc ile panel kapatma, simgeli butonlarda ipuçları, azaltılmış hareket desteği
+- Dişlinin açtığı, yeni "storage" izniyle saklanan ayarlar penceresi: dil, yerel numaraların ülkesi, CSV ayracı, kaydırma hızı, kopyalama biçimi ve ses
+- CSV'de E.164 ve Yönetici sütunları var, dosya adında grup adı geçiyor, dışa aktarmada ülke özeti log'a yazılıyor
 - Mağaza metinleri Türkçe ve İngilizce (store/)
 - README, gizlilik politikası ve lisans Türkçe ve İngilizce
 

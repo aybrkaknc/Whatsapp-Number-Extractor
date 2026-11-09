@@ -42,11 +42,14 @@
     WA.renderStatusBar();
   };
 
-  // Minimized panels keep only the title bar and the status bar
+  // Shows the main or settings view; minimized panels keep only the title bar and the status bar
   WA.renderMinimized = () => {
     const { state, t } = WA;
-    const body = document.querySelector('#wa-extractor-window .window-body');
-    if (body) body.classList.toggle('hide', state.minimized);
+    const main = document.getElementById('wa-ext-main');
+    const settings = document.getElementById('wa-ext-settings');
+    if (main) main.classList.toggle('hide', state.minimized || state.view !== 'main');
+    if (settings) settings.classList.toggle('hide', state.minimized || state.view !== 'settings');
+    if (state.view === 'settings') WA.renderSettings();
     const btn = document.getElementById('wa-ext-btn-minimize');
     if (!btn) return;
     // 98.css draws the minimize / restore icon from the class
@@ -54,6 +57,48 @@
     const label = t(state.minimized ? 'ariaRestore' : 'ariaMinimize');
     btn.setAttribute('aria-label', label);
     btn.title = label;
+  };
+
+  // Fills the settings view with texts in the UI language and the saved values
+  WA.renderSettings = () => {
+    const { t, settings } = WA;
+    const setText = (id, key) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = t(key);
+    };
+    setText('wa-ext-set-legend', 'settingsTitle');
+    setText('wa-ext-set-country-label', 'setDefaultCountry');
+    setText('wa-ext-set-delimiter-label', 'setDelimiter');
+    setText('wa-ext-set-speed-label', 'setScrollSpeed');
+    setText('wa-ext-set-copy-label', 'setCopyFormat');
+    setText('wa-ext-set-sound-label', 'setSound');
+    setText('wa-ext-set-help', 'btnHelp');
+    setText('wa-ext-set-ok', 'btnOk');
+
+    const optionKeys = {
+      'wa-ext-set-delimiter': { ';': 'delimiterSemicolon', ',': 'delimiterComma' },
+      'wa-ext-set-speed': { slow: 'speedSlow', normal: 'speedNormal', fast: 'speedFast' },
+      'wa-ext-set-copy': { lines: 'copyLines', comma: 'copyComma' }
+    };
+    for (const [id, keys] of Object.entries(optionKeys)) {
+      const select = document.getElementById(id);
+      if (!select) continue;
+      for (const option of select.options) option.textContent = t(keys[option.value]);
+    }
+
+    // Country names depend on the UI language, so the list is rebuilt each time
+    const country = document.getElementById('wa-ext-set-country');
+    if (country) {
+      country.replaceChildren(...WA.countryOptions().map(({ dial, label }) => new Option(label, dial)));
+      country.value = settings.defaultDial;
+    }
+    const values = { 'wa-ext-set-delimiter': settings.delimiter, 'wa-ext-set-speed': settings.scrollSpeed, 'wa-ext-set-copy': settings.copyFormat };
+    for (const [id, value] of Object.entries(values)) {
+      const el = document.getElementById(id);
+      if (el) el.value = value;
+    }
+    const sound = document.getElementById('wa-ext-set-sound');
+    if (sound) sound.checked = settings.sound;
   };
 
   // In-panel replacement for alert(); stays until the next renderStatus().
@@ -107,7 +152,7 @@
     const langBtn = document.getElementById('wa-ext-btn-lang');
     if (langBtn) langBtn.innerText = state.lang.toUpperCase();
 
-    [['wa-ext-btn-lang', 'ariaLang'], ['wa-ext-btn-help', 'ariaHelp'], ['wa-ext-btn-github', 'ariaGithub'], ['wa-ext-btn-close', 'ariaClose']].forEach(([id, key]) => {
+    [['wa-ext-btn-lang', 'ariaLang'], ['wa-ext-btn-settings', 'ariaSettings'], ['wa-ext-btn-github', 'ariaGithub'], ['wa-ext-btn-close', 'ariaClose']].forEach(([id, key]) => {
       const el = document.getElementById(id);
       if (!el) return;
       el.setAttribute('aria-label', t(key));

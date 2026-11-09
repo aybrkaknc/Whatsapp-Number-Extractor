@@ -24,6 +24,8 @@
     phase: 'phaseReady',
     // Participant count read from WhatsApp, null when unknown
     total: null,
-    minimized: false
+    minimized: false,
+    // 'main' or 'settings'
+    view: 'main'
   };
 })();

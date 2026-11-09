@@ -120,7 +120,7 @@
             stopAutoScroll();
             autoBtn.innerText = t('btnScrollDone');
             WA.setPhase('phaseDone');
-            playDoneSound();
+            if (WA.settings.sound) playDoneSound();
             return;
           }
         } else {
@@ -129,7 +129,7 @@
         lastPos = scrollArea.scrollTop;
         // Step by most of a screen so rows are not skipped in the virtualized list
         if (!atBottom) scrollArea.scrollTop += Math.max(200, Math.floor(scrollArea.clientHeight * 0.8));
-      }, 800);
+      }, WA.SCROLL_INTERVALS[WA.settings.scrollSpeed] || WA.SCROLL_INTERVALS.normal);
     };
 
     copyBtn.onclick = () => {
@@ -137,7 +137,8 @@
         WA.showNotice('alertNoNum');
         return;
       }
-      navigator.clipboard.writeText(Array.from(state.phones.values(), p => p.phone).join('\n')).then(() => {
+      const separator = WA.settings.copyFormat === 'comma' ? ', ' : '\n';
+      navigator.clipboard.writeText(Array.from(state.phones.values(), p => p.phone).join(separator)).then(() => {
         const oldText = copyBtn.innerText;
         copyBtn.innerText = t('alertCopied');
         setTimeout(() => copyBtn.innerText = oldText, 2000);
@@ -161,6 +162,7 @@
       let exportFailed = false;
       if (!isEmpty) {
         try {
+          Logger.info('logCountrySummary', WA.countrySummary(state.phones));
           WA.downloadCsv(state.phones);
           Logger.info('logExportSuccess', state.phones.size);
         } catch (err) {

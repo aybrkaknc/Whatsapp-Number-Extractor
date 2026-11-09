@@ -12,15 +12,40 @@
 
     document.getElementById('wa-ext-btn-lang').onclick = () => {
       state.lang = state.lang === 'tr' ? 'en' : 'tr';
+      WA.saveSettings({ lang: state.lang });
       Logger.info('logLangChanged', state.lang);
       WA.updateUITexts();
     };
 
-    document.getElementById('wa-ext-btn-help').onclick = () => {
+    // Gear: switch between the main view and the settings view
+    document.getElementById('wa-ext-btn-settings').onclick = () => {
+      state.view = state.view === 'settings' ? 'main' : 'settings';
+      state.minimized = false;
+      WA.renderMinimized();
+    };
+    document.getElementById('wa-ext-set-ok').onclick = () => {
+      state.view = 'main';
+      WA.renderMinimized();
+    };
+
+    document.getElementById('wa-ext-set-help').onclick = () => {
       Logger.info('logHelpOpen');
       const helpFile = state.lang === 'tr' ? 'help-tr.html' : 'help-en.html';
       window.open((globalThis.browser || chrome).runtime.getURL(helpFile), '_blank');
     };
+
+    // Settings are saved as soon as a field changes
+    const bindSetting = (id, key, read) => {
+      document.getElementById(id).onchange = (e) => {
+        WA.saveSettings({ [key]: read(e.target) });
+        Logger.info('logSettingsSaved');
+      };
+    };
+    bindSetting('wa-ext-set-country', 'defaultDial', el => el.value);
+    bindSetting('wa-ext-set-delimiter', 'delimiter', el => el.value);
+    bindSetting('wa-ext-set-speed', 'scrollSpeed', el => el.value);
+    bindSetting('wa-ext-set-copy', 'copyFormat', el => el.value);
+    bindSetting('wa-ext-set-sound', 'sound', el => el.checked);
 
     document.getElementById('wa-ext-btn-github').onclick = () => {
       window.open('https://github.com/aybrkaknc/Whatsapp-Number-Extractor', '_blank');

@@ -10,6 +10,8 @@
 - The help button uses a gear icon and the Telegram button is replaced by a GitHub button that opens the repository
 - Status bar with scan phase and collected / total count, progress bar when WhatsApp shows the participant count
 - Minimize button, Esc closes the panel, tooltips on icon buttons, reduced motion support
+- Settings window behind the gear, saved with the new "storage" permission: language, country for local numbers, CSV delimiter, scroll speed, copy format and sound
+- CSV has E.164 and Admin columns, the file name includes the group name, and a country summary is logged on export
 - Store listings in English and Turkish (store/)
 - README, privacy policy and license in English and Turkish
 
