@@ -8,13 +8,19 @@ test('loadSettings keeps defaults when nothing is stored', async () => {
   assert.strictEqual(WA.settings.defaultDial, '90');
   assert.strictEqual(WA.settings.delimiter, ';');
   assert.strictEqual(WA.settings.sound, true);
-  assert.strictEqual(WA.state.lang, 'tr');
 });
 
-test('loadSettings applies the saved language over the page language', async () => {
-  const WA = load('tr', { settings: { lang: 'en', sound: false } });
+test('the panel starts in English even on a Turkish WhatsApp page', async () => {
+  const WA = load.initial('tr');
+  assert.strictEqual(WA.state.lang, 'en');
   await WA.loadSettings();
   assert.strictEqual(WA.state.lang, 'en');
+});
+
+test('loadSettings applies the saved language over the English default', async () => {
+  const WA = load.initial('en', { settings: { lang: 'tr', sound: false } });
+  await WA.loadSettings();
+  assert.strictEqual(WA.state.lang, 'tr');
   assert.strictEqual(WA.settings.sound, false);
   assert.strictEqual(WA.settings.delimiter, ';');
 });

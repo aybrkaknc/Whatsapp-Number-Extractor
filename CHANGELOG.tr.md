@@ -13,6 +13,7 @@
 - Dişlinin açtığı, yeni "storage" izniyle saklanan ayarlar penceresi: dil, yerel numaraların ülkesi, CSV ayracı, kaydırma hızı, kopyalama biçimi ve ses
 - vCard (.vcf) veya JSON olarak dışa aktarma, dışa aktarma ve kopyalama için ülke filtresi
 - "Başka grup tara" ile birden fazla grubu tek listede birleştirme, yeni Grup sütunu
+- Panel artık WhatsApp sayfasının diline uymak yerine İngilizce başlıyor; seçtiğiniz dil hatırlanıyor
 - Panelde gizlilik ve WhatsApp şartları hakkında tek seferlik bilgi notu
 - Mağaza ekran görüntüleri, tanıtım kutusu ve README ekran görüntüsü; testler, lint, derleme ve etiketli sürümler için CI; sürüm senkron betiği
 - İsteğe bağlı: toplanan listeyi aynı sekmede sayfa yenilemelerinde koruma

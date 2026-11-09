@@ -13,6 +13,7 @@
 - Settings window behind the gear, saved with the new "storage" permission: language, country for local numbers, CSV delimiter, scroll speed, copy format and sound
 - Export as vCard (.vcf) or JSON, country filter for export and copy
 - Merge several groups into one list with "Scan another group", new Group column
+- The panel now starts in English instead of following the WhatsApp page language; the language you pick is remembered
 - One-time notice in the panel about privacy and WhatsApp terms
 - Store screenshots, promo tile and README screenshot; CI with tests, lint, build and tagged releases; version sync script
 - Optional: keep the collected list across page reloads in the same tab

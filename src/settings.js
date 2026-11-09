@@ -3,7 +3,7 @@
 
   const STORAGE_KEY = 'settings';
   const DEFAULTS = {
-    // null: follow WhatsApp's page language
+    // null: not chosen yet, the panel starts in English
     lang: null,
     // Calling code used for local numbers that start with 0
     defaultDial: '90',

@@ -18,9 +18,10 @@ const FILES = [
 ];
 
 // Loads the scripts into a sandbox with just enough of `document` for module setup.
+// `pageLang` is WhatsApp's <html lang>; the panel itself starts in English whatever it is.
 // `store` backs a fake chrome.storage.local so settings tests can inspect what was saved,
 // `session` (a Map) backs a fake sessionStorage shared between simulated page loads.
-module.exports = (lang = 'tr', store = {}, session = new Map()) => {
+const create = (pageLang, store, session) => {
   const storage = {
     get: async (key) => ({ [key]: store[key] }),
     set: async (items) => { Object.assign(store, JSON.parse(JSON.stringify(items))); }
@@ -31,10 +32,20 @@ module.exports = (lang = 'tr', store = {}, session = new Map()) => {
     removeItem: (key) => { session.delete(key); }
   };
   const context = vm.createContext({
-    document: { documentElement: { lang } }, Intl, console, sessionStorage, chrome: { storage: { local: storage } }
+    document: { documentElement: { lang: pageLang } }, Intl, console, sessionStorage, chrome: { storage: { local: storage } }
   });
   for (const file of FILES) {
     vm.runInContext(fs.readFileSync(path.join(ROOT, file), 'utf8'), context, { filename: file });
   }
   return context.WA;
 };
+
+// load(lang): the panel is switched to `lang`, as if the user had picked it
+module.exports = (lang = 'tr', store = {}, session = new Map()) => {
+  const WA = create(lang, store, session);
+  WA.state.lang = lang;
+  return WA;
+};
+
+// load.initial(pageLang): the panel exactly as it starts, before any user choice
+module.exports.initial = (pageLang = 'tr', store = {}, session = new Map()) => create(pageLang, store, session);

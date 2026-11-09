@@ -9,11 +9,9 @@
 (() => {
   const WA = globalThis.WA ||= {};
 
-  // Pick the initial language from WhatsApp's own <html lang>
-  const pageLang = document.documentElement.lang || '';
-
   WA.state = {
-    lang: pageLang.startsWith('tr') ? 'tr' : 'en',
+    // English until the user switches; the choice is then saved (settings.lang)
+    lang: 'en',
     phones: new Map(),
     autoScrollInterval: null,
     observer: null,
