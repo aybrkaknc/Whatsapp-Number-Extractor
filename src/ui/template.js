@@ -16,6 +16,11 @@
       </div>
 
       <div id="wa-ext-main" class="window-body">
+        <div id="wa-ext-notice" class="hide">
+          <p id="wa-ext-notice-text"></p>
+          <button id="wa-ext-notice-ok"></button>
+        </div>
+
         <fieldset class="wa-ext-col">
           <legend id="wa-ext-label-actions"></legend>
           <button id="wa-ext-btn-start"></button>

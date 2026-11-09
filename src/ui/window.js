@@ -17,6 +17,11 @@
       WA.updateUITexts();
     };
 
+    document.getElementById('wa-ext-notice-ok').onclick = () => {
+      WA.saveSettings({ noticeSeen: true });
+      document.getElementById('wa-ext-notice').classList.add('hide');
+    };
+
     // Gear: switch between the main view and the settings view
     document.getElementById('wa-ext-btn-settings').onclick = () => {
       state.view = state.view === 'settings' ? 'main' : 'settings';

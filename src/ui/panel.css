@@ -117,6 +117,23 @@
   white-space: nowrap;
 }
 
+/* Same note style as the help pages */
+#wa-98-scope #wa-ext-notice {
+  background: #ffffcc;
+  border: 1px solid #808080;
+  padding: 6px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+#wa-98-scope #wa-ext-notice p {
+  margin: 0 0 6px 0;
+}
+#wa-98-scope #wa-ext-notice button {
+  display: block;
+  margin-left: auto;
+}
+
 #wa-98-scope #wa-ext-settings select {
   width: 100%;
 }

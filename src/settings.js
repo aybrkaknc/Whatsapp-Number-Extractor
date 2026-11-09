@@ -16,7 +16,9 @@
     // Calling code to export only; '' exports every country
     exportCountry: '',
     // Keep collected numbers in the tab's sessionStorage across page reloads
-    keepOnReload: false
+    keepOnReload: false,
+    // The one-time privacy and terms notice was dismissed
+    noticeSeen: false
   };
 
   WA.SCROLL_INTERVALS = { slow: 1200, normal: 800, fast: 500 };

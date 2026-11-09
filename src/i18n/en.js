@@ -55,6 +55,8 @@
     btnHelp: 'Help',
     btnOk: 'OK',
     btnScanNext: 'Scan another group',
+    noticeText: 'Collected numbers stay on this device and are never sent anywhere. You are responsible for using them in line with data protection laws and WhatsApp\'s terms of service.',
+    noticeOk: 'Got it',
     setExportFormat: 'Export format',
     formatCsv: 'CSV (Excel)',
     formatVcf: 'vCard (.vcf, for contacts)',

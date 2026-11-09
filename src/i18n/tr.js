@@ -55,6 +55,8 @@
     btnHelp: 'Yardım',
     btnOk: 'Tamam',
     btnScanNext: 'Başka grup tara',
+    noticeText: 'Toplanan numaralar yalnızca bu cihazda kalır, hiçbir yere gönderilmez. Bu verileri kişisel verilerin korunması yasalarına ve WhatsApp kullanım koşullarına uygun kullanmak sizin sorumluluğunuzdadır.',
+    noticeOk: 'Anladım',
     setExportFormat: 'Dışa aktarma biçimi',
     formatCsv: 'CSV (Excel)',
     formatVcf: 'vCard (.vcf, rehbere aktarma)',

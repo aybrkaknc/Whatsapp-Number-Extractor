@@ -180,6 +180,12 @@
       el.title = t(key);
     });
 
+    // One-time privacy and terms notice until it is dismissed
+    setText('wa-ext-notice-text', 'noticeText');
+    setText('wa-ext-notice-ok', 'noticeOk');
+    const notice = document.getElementById('wa-ext-notice');
+    if (notice) notice.classList.toggle('hide', WA.settings.noticeSeen);
+
     WA.renderStatus();
     WA.renderMinimized();
 
