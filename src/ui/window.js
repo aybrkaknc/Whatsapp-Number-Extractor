@@ -16,14 +16,14 @@
       WA.updateUITexts();
     };
 
-    document.getElementById('wa-ext-btn-feedback').onclick = () => {
-      Logger.info('logFeedbackOpen');
+    document.getElementById('wa-ext-btn-help').onclick = () => {
+      Logger.info('logHelpOpen');
       const helpFile = state.lang === 'tr' ? 'help-tr.html' : 'help-en.html';
       window.open((globalThis.browser || chrome).runtime.getURL(helpFile), '_blank');
     };
 
-    document.getElementById('wa-ext-btn-telegram').onclick = () => {
-      window.open('https://t.me/aybrkaknc', '_blank');
+    document.getElementById('wa-ext-btn-github').onclick = () => {
+      window.open('https://github.com/aybrkaknc/Whatsapp-Number-Extractor', '_blank');
     };
 
     // Dragging
@@ -40,6 +40,11 @@
       e.preventDefault();
     });
 
+    // WhatsApp may remove the panel and createUI re-binds; drop the previous document listeners first
+    if (state.documentListeners) state.documentListeners.abort();
+    state.documentListeners = new AbortController();
+    const { signal } = state.documentListeners;
+
     document.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
       // Keep the panel inside the viewport
@@ -53,11 +58,11 @@
       scopeWrapper.style.right = 'auto';
       scopeWrapper.style.left = newX + 'px';
       scopeWrapper.style.top = newY + 'px';
-    });
+    }, { signal });
 
     document.addEventListener('mouseup', () => {
       isDragging = false;
-    });
+    }, { signal });
 
     // Show / hide
     let isVisible = false;
@@ -85,6 +90,19 @@
 
     mainToggleBtn.onclick = toggleWindow;
     document.getElementById('wa-ext-btn-close').onclick = toggleWindow;
+
+    // Esc closes the panel only while focus is inside it, so WhatsApp's own Esc handling is untouched
+    panel.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !isVisible) return;
+      e.stopPropagation();
+      toggleWindow();
+      mainToggleBtn.focus();
+    });
+
+    document.getElementById('wa-ext-btn-minimize').onclick = () => {
+      state.minimized = !state.minimized;
+      WA.renderMinimized();
+    };
 
     // Log panel
     toggleLogBtn.onclick = () => {

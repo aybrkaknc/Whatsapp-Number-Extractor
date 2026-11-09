@@ -13,6 +13,8 @@
       osc.type = 'sine';
       osc.frequency.setValueAtTime(880, ctx.currentTime);
       gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      // Browsers limit open audio contexts, so close this one when the beep ends
+      osc.onended = () => ctx.close();
       osc.start();
       gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.5);
       osc.stop(ctx.currentTime + 0.5);
@@ -40,7 +42,7 @@
 
       if (!scrollArea) {
         Logger.error('errNoList');
-        alert(t('alertNoList'));
+        WA.showNotice('alertNoList');
         return;
       }
 
@@ -51,10 +53,21 @@
       copyBtn.classList.remove('hide');
       stopBtn.classList.remove('hide');
 
+      state.total = WA.findParticipantTotal();
+      WA.setPhase('phaseScanning');
       WA.scanVisibleNumbers(scrollArea);
 
+      // A scroll fires many DOM mutations; rescan at most once per frame
       if (state.observer) state.observer.disconnect();
-      state.observer = new MutationObserver(() => WA.scanVisibleNumbers(scrollArea));
+      let scanQueued = false;
+      state.observer = new MutationObserver(() => {
+        if (scanQueued) return;
+        scanQueued = true;
+        requestAnimationFrame(() => {
+          scanQueued = false;
+          WA.scanVisibleNumbers(scrollArea);
+        });
+      });
       state.observer.observe(scrollArea, { childList: true, subtree: true });
       Logger.info('logScanStart');
 
@@ -70,6 +83,7 @@
           stopAutoScroll();
           autoBtn.innerText = t('btnScrollResume');
         }
+        WA.setPhase('phaseStopped');
       }, 1000);
     };
 
@@ -79,10 +93,12 @@
         Logger.info('logAutoScrollPaused');
         stopAutoScroll();
         autoBtn.innerText = t('btnScrollResume');
+        WA.setPhase('phasePaused');
         return;
       }
 
       autoBtn.innerText = t('btnScrollStop');
+      WA.setPhase('phaseScrolling');
       let lastPos = -1;
       let stuckCount = 0;
 
@@ -95,34 +111,40 @@
 
         WA.scanVisibleNumbers(scrollArea);
 
-        if (scrollArea.scrollTop === lastPos) {
+        // At the bottom (or blocked), wait a few ticks in case WhatsApp lazy-loads more rows
+        const atBottom = scrollArea.scrollTop + scrollArea.clientHeight >= scrollArea.scrollHeight - 2;
+        if (atBottom || scrollArea.scrollTop === lastPos) {
           stuckCount++;
-          if (stuckCount > 4) {
+          if (stuckCount > 2) {
             Logger.info('logScanDone');
             stopAutoScroll();
             autoBtn.innerText = t('btnScrollDone');
+            WA.setPhase('phaseDone');
             playDoneSound();
+            return;
           }
         } else {
           stuckCount = 0;
-          lastPos = scrollArea.scrollTop;
-          scrollArea.scrollTop += 500;
         }
+        lastPos = scrollArea.scrollTop;
+        // Step by most of a screen so rows are not skipped in the virtualized list
+        if (!atBottom) scrollArea.scrollTop += Math.max(200, Math.floor(scrollArea.clientHeight * 0.8));
       }, 800);
     };
 
     copyBtn.onclick = () => {
       if (state.phones.size === 0) {
-        alert(t('alertNoNum'));
+        WA.showNotice('alertNoNum');
         return;
       }
-      navigator.clipboard.writeText(Array.from(state.phones.keys()).join('\n')).then(() => {
+      navigator.clipboard.writeText(Array.from(state.phones.values(), p => p.phone).join('\n')).then(() => {
         const oldText = copyBtn.innerText;
         copyBtn.innerText = t('alertCopied');
         setTimeout(() => copyBtn.innerText = oldText, 2000);
         Logger.info('logCopied');
       }).catch(err => {
         Logger.error('errCopy', err);
+        WA.showNotice('errCopy', 'error');
       });
     };
 
@@ -135,21 +157,30 @@
       if (state.observer) state.observer.disconnect();
       stopAutoScroll();
 
-      if (state.phones.size > 0) {
+      const isEmpty = state.phones.size === 0;
+      let exportFailed = false;
+      if (!isEmpty) {
         try {
           WA.downloadCsv(state.phones);
           Logger.info('logExportSuccess', state.phones.size);
         } catch (err) {
           Logger.error('errExport', err);
+          exportFailed = true;
         }
       } else {
         Logger.warn('warnNoNum');
-        alert(t('alertNoNum'));
       }
 
-      // Reset the UI for the next run
+      // Keep the numbers if the download failed, so the user can retry
+      if (exportFailed) {
+        WA.setPhase('phaseStopped');
+        WA.showNotice('errExport', 'error');
+        return;
+      }
+
+      // Reset the UI for the next run; the modal may already be closed, so search silently
       Logger.info('logReset');
-      const scrollArea = WA.findActiveScrollContainer();
+      const scrollArea = WA.findActiveScrollContainer(true);
       if (scrollArea) scrollArea.style.border = 'none';
 
       autoBtn.classList.add('hide');
@@ -159,8 +190,11 @@
       autoBtn.innerText = t('btnAutoScroll');
 
       state.phones.clear();
-      status.style.color = '#00ff00';
+      state.total = null;
+      state.phase = 'phaseReady';
       WA.renderStatus();
+      // Shown after the reset so renderStatus() does not overwrite it
+      if (isEmpty) WA.showNotice('alertNoNum');
     };
   };
 })();

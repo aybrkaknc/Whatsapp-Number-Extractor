@@ -113,6 +113,7 @@ npm install
 npm start           # Firefox, otomatik yenileme ile
 npm run start:chrome
 npm run lint
+npm test
 npm run build
 ```
 
@@ -167,6 +168,7 @@ Proje bağlantısı: [https://github.com/aybrkaknc/Whatsapp-Number-Extractor](ht
 * [98.css](https://jdan.github.io/98.css/) - Panel için Windows 98 görünümü
 * [Best-README-Template](https://github.com/aybrkaknc/Best-README-Template) - README yapısı
 * [Img Shields](https://shields.io) - rozetler
+* [Octicons](https://primer.style/foundations/icons) - GitHub simgesi (MIT)
 
 <p align="right">(<a href="#readme-top">başa dön</a>)</p>
 

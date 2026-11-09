@@ -5,6 +5,17 @@
     if (document.getElementById('wa-extractor-main-toggle')) return;
     WA.Logger.info('logInit');
 
+    // WhatsApp may have removed a panel mid-scan; stop timers that point at the old buttons.
+    // Collected numbers are kept and still shown in the status box.
+    const { state } = WA;
+    clearInterval(state.autoScrollInterval);
+    clearInterval(state.modalCheckInterval);
+    if (state.observer) state.observer.disconnect();
+    state.autoScrollInterval = null;
+    state.modalCheckInterval = null;
+    state.observer = null;
+    state.phase = state.phones.size > 0 ? 'phaseStopped' : 'phaseReady';
+
     const scopeWrapper = document.createElement('div');
     scopeWrapper.id = 'wa-98-scope';
     Object.assign(scopeWrapper.style, {

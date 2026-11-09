@@ -16,12 +16,16 @@
     return PHONE_LIKE.test(s) ? `"=""${s}"""` : csvCell(s);
   };
 
+  // Exposed for unit tests
+  WA.csvCell = csvCell;
+  WA.phoneCell = phoneCell;
+
   WA.downloadCsv = (phones) => {
     const t = WA.t;
     // The sep=; line lets Excel detect the delimiter
     const rows = ['sep=;', t('csvHeaders')];
     for (const data of phones.values()) {
-      rows.push([phoneCell(data.country || t('unknown')), csvCell(data.name || t('unknown')), phoneCell(data.phone)].join(';'));
+      rows.push([phoneCell(WA.formatCountry(data.country)), csvCell(data.name || t('unknown')), phoneCell(data.phone)].join(';'));
     }
 
     // UTF-8 BOM so Excel reads Turkish characters correctly

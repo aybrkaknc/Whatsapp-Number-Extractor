@@ -113,6 +113,7 @@ npm install
 npm start           # Firefox with hot reload
 npm run start:chrome
 npm run lint
+npm test
 npm run build
 ```
 
@@ -167,6 +168,7 @@ Project Link: [https://github.com/aybrkaknc/Whatsapp-Number-Extractor](https://g
 * [98.css](https://jdan.github.io/98.css/) - Windows 98 style for the panel
 * [Best-README-Template](https://github.com/aybrkaknc/Best-README-Template) - README structure
 * [Img Shields](https://shields.io) - badges
+* [Octicons](https://primer.style/foundations/icons) - GitHub icon (MIT)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

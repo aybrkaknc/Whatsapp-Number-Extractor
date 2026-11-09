@@ -3,14 +3,15 @@
 
   // Static markup only; all user-facing text is filled in by updateUITexts()
   WA.UI_TEMPLATE = `
-    <div id="wa-extractor-window" class="window hide" style="width: 280px; margin-bottom: 5px;">
+    <div id="wa-extractor-window" class="window hide" style="width: min(280px, 90vw); margin-bottom: 5px;">
       <div class="title-bar">
         <div class="title-bar-text">WA Extractor</div>
         <div class="title-bar-controls">
           <button id="wa-ext-btn-lang"></button>
-          <button id="wa-ext-btn-feedback">?</button>
-          <button id="wa-ext-btn-telegram"></button>
-          <button id="wa-ext-btn-close"></button>
+          <button id="wa-ext-btn-help"></button>
+          <button id="wa-ext-btn-github"></button>
+          <button id="wa-ext-btn-minimize" class="minimize"></button>
+          <button id="wa-ext-btn-close" class="close"></button>
         </div>
       </div>
 
@@ -25,7 +26,11 @@
 
         <div class="field-row-stacked" style="margin-top: 8px;">
           <label id="wa-ext-label-status"></label>
-          <div id="wa-extractor-status" class="sunken-panel" style="padding: 10px; min-height: 70px; word-break: break-all; font-family: 'Fixedsys', 'Courier New', monospace; font-size: 14px; background: black; color: #00ff00; line-height: 1.5;"></div>
+          <div id="wa-extractor-status" class="sunken-panel" role="status" aria-live="polite" style="padding: 10px; min-height: 70px; word-break: break-all; font-family: 'Fixedsys', 'Courier New', monospace; font-size: 14px; background: black; color: #00ff00; line-height: 1.5;"></div>
+        </div>
+
+        <div id="wa-ext-progress" class="progress-indicator segmented hide">
+          <span id="wa-ext-progress-bar" class="progress-indicator-bar" style="width: 0%;"></span>
         </div>
 
         <div style="margin-top: 8px;">
@@ -35,6 +40,11 @@
         <div id="wa-extractor-log-terminal" class="sunken-panel" style="padding: 6px; overflow-y: auto; background: black; color: #00ff00; font-family: 'Fixedsys', 'Courier New', monospace; font-size: 12px;"></div>
 
         <button id="wa-extractor-log-clear" class="hide" style="width: 100%; margin-top: 4px;"></button>
+      </div>
+
+      <div class="status-bar">
+        <p id="wa-ext-sb-phase" class="status-bar-field"></p>
+        <p id="wa-ext-sb-count" class="status-bar-field"></p>
       </div>
     </div>
 

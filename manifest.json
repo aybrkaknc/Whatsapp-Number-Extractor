@@ -25,6 +25,7 @@
         "src/i18n/tr.js",
         "src/i18n/en.js",
         "src/i18n/i18n.js",
+        "src/country.js",
         "src/logger.js",
         "src/scanner.js",
         "src/csv.js",
@@ -47,7 +48,7 @@
         "98.css"
       ],
       "matches": [
-        "*://*.whatsapp.com/*"
+        "https://web.whatsapp.com/*"
       ]
     }
   ],

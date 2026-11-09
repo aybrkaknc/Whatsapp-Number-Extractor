@@ -4,63 +4,83 @@
 
   const PHONE_RE = /^\+?\d[\d\s\-()]{7,}$/;
   const ADMIN_TAGS = ['Admin', 'Grup yöneticisi', 'Group admin'];
+  // Match both UI languages so detection does not depend on WhatsApp's locale
+  const ARIA_LABELS = ['Üyeleri aratın', 'Search participants'];
+  // Generated class names from WhatsApp's build change between releases, so this is only a fallback
+  const LEGACY_LIST_SELECTOR = '.x1n2onr6.x1n2onr6.xupqr0c';
+
+  const isScrollable = (el, margin) => el.scrollHeight > el.clientHeight + margin;
+
+  // Nearest scrollable ancestor of the first member row inside the modal
+  const listFromRows = (modal) => {
+    const row = modal.querySelector('[role="listitem"]');
+    for (let el = row && row.parentElement; el && el !== modal; el = el.parentElement) {
+      if (isScrollable(el, 10)) return el;
+    }
+    return null;
+  };
 
   WA.findActiveScrollContainer = (silent = false) => {
-    if (!silent) Logger.info('logSearching');
+    const log = (level, key) => { if (!silent) Logger[level](key); };
+    log('info', 'logSearching');
 
-    // Match both UI languages so detection does not depend on WhatsApp's locale
-    const ariaLabels = ['Üyeleri aratın', 'Search participants'];
-    let modernModal = null;
-    let modal = null;
-
-    // 1. Current WhatsApp search modal
-    for (const label of ariaLabels) {
-      if (!modernModal) {
-        modernModal = document.querySelector(`div[aria-label="${label}"] .x1n2onr6.x1n2onr6.xupqr0c`);
-      }
-      if (!modal) {
-        modal = document.querySelector(`div[aria-label="${label}"]`);
-      }
-    }
-
-    if (modernModal) {
-      if (!silent) Logger.info('logModernModal');
-      return modernModal;
-    }
-
-    // 2. Any dialog
+    const modal = ARIA_LABELS.map(label => document.querySelector(`div[aria-label="${label}"]`)).find(Boolean)
+      || document.querySelector('[role="dialog"]');
     if (!modal) {
-      modal = document.querySelector('div[role="dialog"]');
+      log('info', 'logNoModal');
+      log('error', 'errNoListArea');
+      return null;
+    }
+    log('info', 'logGeneralModal');
+
+    const fromRows = listFromRows(modal);
+    if (fromRows) {
+      log('info', 'logListFound');
+      return fromRows;
     }
 
-    if (modal) {
-      if (!silent) Logger.info('logGeneralModal');
-      const listItem = modal.querySelector('div[role="listitem"]');
-
-      if (listItem) {
-        let parent = listItem.parentElement;
-        while (parent && parent !== modal) {
-          if (parent.scrollHeight > parent.clientHeight + 10) {
-            if (!silent) Logger.info('logListFound');
-            return parent;
-          }
-          parent = parent.parentElement;
-        }
-      }
-
-      if (!silent) Logger.warn('logFallbackSearch');
-      const allDivs = Array.from(modal.querySelectorAll('div'));
-      const fallbackScrollable = allDivs.find(div => div.scrollHeight > div.clientHeight + 20);
-      if (fallbackScrollable) {
-        if (!silent) Logger.info('logFallbackFound');
-        return fallbackScrollable;
-      }
-    } else {
-      if (!silent) Logger.info('logNoModal');
+    const legacy = modal.querySelector(LEGACY_LIST_SELECTOR);
+    if (legacy) {
+      log('warn', 'logLegacySelector');
+      return legacy;
     }
 
-    if (!silent) Logger.error('errNoListArea');
+    log('warn', 'logFallbackSearch');
+    const fallback = Array.from(modal.querySelectorAll('div')).find(div => isScrollable(div, 20));
+    if (fallback) {
+      log('info', 'logFallbackFound');
+      return fallback;
+    }
+
+    log('error', 'errNoListArea');
     return null;
+  };
+
+  // Participant count as WhatsApp shows it ("123 katılımcı", "Grup · 45 üye", "12 participants").
+  // Only whole-span matches count, so numbers inside chat messages are ignored. null when not found.
+  const TOTAL_RE = /^(?:.*·\s*)?(\d[\d.,]*)\s*(katılımcı|üye|participants|members)$/iu;
+  WA.findParticipantTotal = () => {
+    for (const span of document.querySelectorAll('span')) {
+      if (span.children.length > 0) continue;
+      const match = span.textContent.trim().match(TOTAL_RE);
+      if (match) return parseInt(match[1].replace(/[.,]/g, ''), 10) || null;
+    }
+    return null;
+  };
+
+  // Same number in different formats (+90 532 111 22 33 / +905321112233) maps to one key
+  WA.phoneKey = (text) => text.replace(/[^\d+]/g, '');
+
+  // Picks the display name from a member row's texts; a ~profile name wins over a saved contact name
+  WA.pickName = (labels, phone) => {
+    let name = '';
+    for (const raw of labels) {
+      const label = raw.trim();
+      if (!label || label === phone || PHONE_RE.test(label) || ADMIN_TAGS.includes(label)) continue;
+      if (label.startsWith('~')) return label.substring(1).trim();
+      if (name === '' && label.length > 1) name = label;
+    }
+    return name;
   };
 
   WA.scanVisibleNumbers = (container) => {
@@ -68,36 +88,18 @@
     const phones = WA.state.phones;
 
     try {
-      const spans = container.querySelectorAll('span[dir="auto"]');
       let newFound = 0;
 
-      spans.forEach(span => {
+      container.querySelectorAll('span[dir="auto"]').forEach(span => {
         const text = span.textContent.trim();
-        if (!PHONE_RE.test(text) || phones.has(text)) return;
+        if (!PHONE_RE.test(text)) return;
+        const key = WA.phoneKey(text);
+        if (phones.has(key)) return;
 
-        let name = '';
         const row = span.closest('div[role="listitem"]') || span.parentElement.closest('div[style*="height"]') || span.closest('div');
-        if (row) {
-          for (const el of row.querySelectorAll('span[dir="auto"], span[title]')) {
-            const label = el.textContent.trim();
-            // Skip admin tags and the number itself
-            if (!label || label === text || PHONE_RE.test(label) || ADMIN_TAGS.includes(label)) continue;
-            if (label.startsWith('~')) {
-              name = label.substring(1).trim();
-              break;
-            }
-            // Saved contact name, used unless a ~profile name follows
-            if (name === '' && label.length > 1) name = label;
-          }
-        }
+        const name = row ? WA.pickName(Array.from(row.querySelectorAll('span[dir="auto"], span[title]'), el => el.textContent), text) : '';
 
-        let country = text.split(' ')[0];
-        if (!country.includes('+')) {
-          // Local format such as 05...
-          country = text.startsWith('0') ? 'TR' : '';
-        }
-
-        phones.set(text, { country, name, phone: text });
+        phones.set(key, { country: WA.detectCountry(text), name, phone: text });
         newFound++;
         WA.renderStatus();
       });
@@ -107,6 +109,7 @@
       }
     } catch (err) {
       Logger.error('errScanFail', err);
+      WA.showNotice('errScanFail', 'error');
     }
   };
 })();

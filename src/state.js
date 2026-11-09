@@ -18,6 +18,12 @@
     autoScrollInterval: null,
     observer: null,
     modalCheckInterval: null,
-    isLogOpen: false
+    isLogOpen: false,
+    documentListeners: null,
+    // i18n key shown in the status bar
+    phase: 'phaseReady',
+    // Participant count read from WhatsApp, null when unknown
+    total: null,
+    minimized: false
   };
 })();

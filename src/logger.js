@@ -44,13 +44,8 @@
     },
     error: (key, rawErr = '', ...params) => {
       console.error(`${PREFIX} [ERROR]`, key, rawErr, params);
+      // Log only; callers decide whether the user needs to see it (WA.showNotice)
       append('ERROR', key, params, rawErr);
-
-      const statusBox = document.getElementById('wa-extractor-status');
-      if (statusBox) {
-        statusBox.textContent = `> ${WA.t('errCritical')}\n> ${WA.t(key, ...params)}`;
-        statusBox.style.color = '#f44336';
-      }
     }
   };
 })();
